@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const response = await fetch(
+  "https://www.roastdinnersaroundtheworld.com/wp-json/wp/v2/posts?_fields=author,id,excerpt,title,link"
+);
+const posts = await response.json();
+
+console.log(10, posts);
+---
+
+<BaseLayout pageTitle='Home'>
+  <p>Roast Dinners Around The World</p>
+  <ul>
+    {
+      posts.map((post) => (
+        <li>
+          <a href={post.link} target='_blank' rel='noopener noreferrer'>
+            {post.title.rendered}
+          </a>
+          <p>{post.excerpt.rendered}</p>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
