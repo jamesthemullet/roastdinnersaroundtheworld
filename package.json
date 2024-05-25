@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@fontsource/yellowtail": "^5.0.19",
     "astro": "^2.2.3"
   },
   "scripts": {
