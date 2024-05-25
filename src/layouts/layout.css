@@ -13,3 +13,9 @@ div.page-container {
   justify-content: center;
   position: relative;
 }
+
+h1 {
+  font-family: "yellowtail", "Roboto", sans-serif;
+  font-size: 2em;
+  color: #333;
+}
