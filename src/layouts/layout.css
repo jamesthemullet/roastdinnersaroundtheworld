@@ -14,6 +14,14 @@ div.page-container {
   position: relative;
 }
 
+div.logoandtitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
 h1 {
   font-family: "yellowtail", "Roboto", sans-serif;
   font-size: 2em;
