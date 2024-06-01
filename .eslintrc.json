@@ -6,10 +6,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
     "plugin:prettier/recommended",
-    "prettier",
-    "prettier-plugin-astro"
+    "prettier"
   ],
   "overrides": [],
   "parser": "@typescript-eslint/parser",

@@ -17,6 +17,7 @@ export default {
     singleQuote: false,
     trailingComma: "none",
     jsxBracketSameLine: true,
+    endOfLine: auto,
   },
 };
 
