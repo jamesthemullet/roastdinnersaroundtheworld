@@ -30,7 +30,7 @@ console.log(10, posts);
           <a href={post.link} target='_blank' rel='noopener noreferrer'>
             {post.title.rendered}
           </a>
-          <p>{post.excerpt.rendered}</p>
+          <Fragment set:html={post.excerpt.rendered} />
           <img src={post.featured_image} alt={post.title.rendered} />
         </li>
       ))
