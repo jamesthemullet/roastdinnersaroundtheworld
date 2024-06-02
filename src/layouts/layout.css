@@ -22,7 +22,8 @@ div.logoandtitle {
   width: 100%;
 }
 
-h1 {
+h1,
+h2 {
   font-family: "yellowtail", "Roboto", sans-serif;
   font-size: 2em;
   color: #333;
