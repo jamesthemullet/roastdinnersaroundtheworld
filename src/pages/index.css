@@ -1,0 +1,51 @@
+main {
+  margin-bottom: 5rem;
+}
+
+h2 {
+  text-align: left;
+  margin: 1rem;
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+
+  li {
+    list-style: none;
+
+    @media (min-width: 768px) {
+      flex: 33%;
+      max-width: calc(33% - 1rem);
+    }
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.5em;
+    display: block;
+    text-align: center;
+    min-height: 4rem;
+  }
+
+  p {
+    font-size: 1.2em;
+    color: #666;
+    padding: 0 1rem;
+  }
+}
