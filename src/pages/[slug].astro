@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const pageTitle = "Roast Dinners About";
+import "./post.css";
+
+export async function getStaticPaths() {
+  const response = await fetch(
+    "https://www.roastdinnersaroundtheworld.com/graphql",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: `
+        query AllSlugs {
+          posts {
+            nodes {
+              slug
+            }
+          }
+        }
+        `,
+      }),
+    }
+  );
+
+  const { data } = await response.json();
+
+  const posts = data.posts.nodes;
+
+  const paths = posts.map((post) => {
+    return { params: post };
+  });
+
+  return paths;
+}
+
+const { slug } = Astro.params;
+
+const singleResponse = await fetch(
+  "https://www.roastdinnersaroundtheworld.com/graphql",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: `
+        query SinglePost($id: ID = "${slug}") {
+          post(idType: SLUG, id: $id) {
+            date
+            content
+            title
+            featuredImage {
+              node {
+                sourceUrl
+              }
+            }
+          }
+        }
+        `,
+    }),
+  }
+);
+
+const { data } = await singleResponse.json();
+
+const singlePost = data.post;
+---
+
+<BaseLayout pageTitle={pageTitle} />
+<h2>{singlePost.title}</h2>
+<div set:html={singlePost.content} />
