@@ -25,6 +25,12 @@ div.logoandtitle {
 h1,
 h2 {
   font-family: "yellowtail", "Roboto", sans-serif;
-  font-size: 2em;
+  font-size: 3em;
   color: #333;
+}
+
+h2 {
+  font-size: 2em;
+  text-decoration: underline;
+  color: deeppink;
 }
