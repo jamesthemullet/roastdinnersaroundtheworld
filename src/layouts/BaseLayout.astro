@@ -1,17 +1,9 @@
 ---
-import Header from "../components/header.astro";
+import Header from "../components/header/header.astro";
 import Footer from "../components/footer.astro";
 const { pageTitle } = Astro.props;
 import "./layout.css";
 import "@fontsource/yellowtail";
-
-import { Image } from "astro:assets";
-import logo1 from "../images/logos/rdaw-logo-1.webp";
-import logo2 from "../images/logos/rdaw-logo-2.webp";
-import logo3 from "../images/logos/rdaw-logo-3.webp";
-import logo4 from "../images/logos/rdaw-logo-4.webp";
-import logo5 from "../images/logos/rdaw-logo-5.webp";
-import logo6 from "../images/logos/rdaw-logo-6.webp";
 ---
 
 <html lang='en'>
@@ -43,13 +35,14 @@ import logo6 from "../images/logos/rdaw-logo-6.webp";
   <body>
     <div class='page-container'>
       <Header />
-      <div class='logoandtitle'>
-        <Image src={logo3} alt='A bird.' width='200' height='200' />
-        <h1>Roast Dinners Around The World</h1>
-      </div>
-      <h2>{pageTitle}</h2>
-      <p>Roast dinner reviews.</p>
-      <slot />
+      <main>
+        <div class='logoandtitle'>
+          <h1>Roast Dinners Around The World</h1>
+        </div>
+        <!-- <h2>{pageTitle}</h2> -->
+        <!-- <p>Roast dinner reviews.</p> -->
+        <slot />
+      </main>
       <Footer />
     </div>
   </body>
