@@ -3,7 +3,7 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "./index.css";
 const response = await fetch(
-  "https://www.roastdinnersaroundtheworld.com/wp-json/wp/v2/posts?_fields=author,id,excerpt,title,link,date,featured_media,tags"
+  "https://www.roastdinnersaroundtheworld.com/wp-json/wp/v2/posts?_fields=author,id,excerpt,title,link,date,featured_media,tags,slug"
 );
 let posts = await response.json();
 
@@ -20,7 +20,16 @@ posts = await Promise.all(
   })
 );
 
-console.log(10, posts);
+export async function getStaticPaths() {
+  return posts.map((post) => {
+    return {
+      params: { id: post.id },
+      props: { post },
+    };
+  });
+}
+
+// console.log(10, posts);
 ---
 
 <BaseLayout pageTitle='Home'>
@@ -30,7 +39,7 @@ console.log(10, posts);
       posts.map((post, index) => (
         <li>
           <h3>
-            <a href={post.link} target='_blank' rel='noopener noreferrer'>
+            <a href={post.slug} target='_blank' rel='noopener noreferrer'>
               <Fragment set:html={post.title.rendered} />
             </a>{" "}
           </h3>
