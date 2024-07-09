@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const pageTitle = "404 - No roast dinner in this part of the world";
+import "./post.css";
+---
+
+<BaseLayout pageTitle={pageTitle} />
+<div class='container'>
+  <h2>{pageTitle}</h2>
+  <p>
+    There is no roast dinner here. Please try another part of the world.
+    <a href='/'>Go home?</a>
+  </p>
+</div>
