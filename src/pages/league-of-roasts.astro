@@ -1,0 +1,60 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const response = await fetch(
+  "https://www.roastdinnersaroundtheworld.com/wp-json/wp/v2/posts"
+);
+
+const totalPosts = response.headers.get("X-WP-Total");
+
+console.log(`Total number of posts: ${totalPosts}`);
+
+const postsResponse = await fetch(
+  "https://www.roastdinnersaroundtheworld.com/graphql",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: `
+        query AllSlugs {
+          posts {
+            nodes {
+              slug
+              title
+              country {
+                rating
+              }
+            }
+          }
+        }
+        `,
+    }),
+  }
+);
+
+const { data } = await postsResponse.json();
+
+const posts = data.posts.nodes;
+
+const sortedByRating = (posts) => {
+  return posts.sort((a, b) => b.country.rating - a.country.rating);
+};
+---
+
+<BaseLayout pageTitle='League Of Roasts Around The World'>
+  <h2>League Of Roasts:</h2>
+  <ol>
+    {
+      sortedByRating(posts).map((post) => (
+        <li>
+          <p>
+            <a href={post.slug} target='_blank' rel='noopener noreferrer'>
+              <Fragment set:html={post.title} />
+            </a>{" "}
+            - {post.country.rating}
+          </p>
+        </li>
+      ))
+    }
+  </ol>
+</BaseLayout>

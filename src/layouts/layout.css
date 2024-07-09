@@ -4,6 +4,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   color: blue;
+  font-size: 18px;
 }
 
 div.page-container {
@@ -15,6 +16,9 @@ div.page-container {
 }
 
 div.logoandtitle {
+  @media (max-width: 768px) {
+    text-align: center;
+  }
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -22,15 +26,47 @@ div.logoandtitle {
   width: 100%;
 }
 
+main {
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+}
+
 h1,
 h2 {
+  @media (max-width: 768px) {
+    font-size: 1.75em;
+  }
   font-family: "yellowtail", "Roboto", sans-serif;
   font-size: 3em;
   color: #333;
+  margin: 10px;
 }
 
 h2 {
+  @media (max-width: 768px) {
+    font-size: 1.5em;
+  }
   font-size: 2em;
   text-decoration: underline;
   color: deeppink;
+}
+
+ol {
+  @media (max-width: 768px) {
+    padding: 0 20px;
+  }
+  padding: 0;
+  color: #333;
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+
+  li a,
+  li p {
+    text-decoration: none;
+    color: #333;
+  }
 }
