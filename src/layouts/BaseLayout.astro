@@ -1,9 +1,11 @@
 ---
 import Header from "../components/header/header.astro";
 import Footer from "../components/footer.astro";
-const { pageTitle } = Astro.props;
+const { pageTitle, description, opengraphImage } = Astro.props;
 import "./layout.css";
 import "@fontsource/yellowtail";
+
+import { SEO } from "astro-seo";
 ---
 
 <html lang='en'>
@@ -30,7 +32,24 @@ import "@fontsource/yellowtail";
     <meta name='msapplication-TileColor' content='#da532c' />
     <meta name='theme-color' content='#ffffff' />
     <meta name='viewport' content='width=device-width' />
-    <title>{pageTitle}</title>
+    <SEO
+      title={pageTitle || "Roast Dinners Around The World"}
+      description={description ||
+        "Emporer Gravy bringing you roast dinner reviews from around the world."}
+      openGraph={{
+        basic: {
+          title: pageTitle || "Roast Dinners Around The World",
+          type: "Article",
+          image: opengraphImage || "",
+        },
+        optional: {
+          description:
+            description ||
+            "Emporer Gravy bringing you roast dinner reviews from around the world.",
+          siteName: "Roast Dinners Around The World",
+        },
+      }}
+    />
   </head>
   <body>
     <div class='page-container'>
