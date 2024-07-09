@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { Image } from "astro:assets";
-const pageTitle = "Roast Dinners About";
 import "./post.css";
 
 export async function getStaticPaths() {
@@ -57,6 +56,23 @@ const singleResponse = await fetch(
             country {
               country
             }
+            seo {
+              opengraphTitle
+              opengraphDescription
+              opengraphSiteName
+              opengraphImage {
+                uri
+                altText
+                mediaDetails {
+                  file
+                  height
+                  width
+                }
+                mediaItemUrl
+                sourceUrl
+                srcSet
+              }
+            }
           }
         }
         `,
@@ -69,7 +85,11 @@ const { data } = await singleResponse.json();
 const singlePost = data.post;
 ---
 
-<BaseLayout pageTitle={pageTitle} />
+<BaseLayout
+  pageTitle={singlePost.title}
+  description={singlePost.seo.opengraphDescription}
+  opengraphImage={singlePost.seo.opengraphImage.sourceUrl}
+/>
 <Image
   src={singlePost.featuredImage.node.sourceUrl}
   alt={singlePost.title}
