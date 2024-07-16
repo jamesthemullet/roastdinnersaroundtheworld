@@ -1,5 +1,9 @@
 main {
   margin-bottom: 5rem;
+
+  @media (min-width: 769px) {
+    padding: 0.5rem;
+  }
 }
 
 h2 {
@@ -22,10 +26,21 @@ ul {
 
   li {
     list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     @media (min-width: 768px) {
+      flex: 50%;
+      max-width: calc(50% - 1rem);
+    }
+    @media (min-width: 1200px) {
       flex: 33%;
       max-width: calc(33% - 1rem);
+    }
+    @media (min-width: 1400px) {
+      flex: 25%;
+      max-width: calc(25% - 1rem);
     }
   }
 
@@ -37,9 +52,10 @@ ul {
   a {
     text-decoration: none;
     color: #333;
-    font-size: 1.5em;
+    font-size: 1.2rem;
     display: block;
     text-align: center;
+    letter-spacing: 2px;
   }
 
   p {
