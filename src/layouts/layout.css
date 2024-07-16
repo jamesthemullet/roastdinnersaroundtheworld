@@ -26,12 +26,6 @@ div.logoandtitle {
   width: 100%;
 }
 
-main {
-  @media (max-width: 768px) {
-    padding: 10px;
-  }
-}
-
 h1,
 h2 {
   @media (max-width: 768px) {
