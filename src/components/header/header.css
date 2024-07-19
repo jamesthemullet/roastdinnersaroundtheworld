@@ -11,7 +11,7 @@ header {
   background-color: #333;
   color: white;
   font-size: 1.5em;
-  nargin-right: 2rem;
+  margin-right: 2rem;
 
   a {
     color: white;
@@ -19,6 +19,16 @@ header {
     padding-right: 1rem;
     font-family: "yellowtail", "Roboto", sans-serif;
     line-height: 0;
+
+    img {
+      width: 50px;
+      height: 50px;
+
+      @media (min-width: 768px) {
+        width: 100px;
+        height: 100px;
+      }
+    }
   }
 
   .logo {
@@ -41,4 +51,94 @@ header {
     clip: rect(0, 0, 0, 0);
     border: 0;
   }
+}
+
+.nav-container {
+  position: relative;
+}
+
+#nav-toggle {
+  position: relative;
+  width: 30px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+#nav-toggle::before,
+#nav-toggle::after,
+#nav-toggle span {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background-color: white;
+  transition:
+    transform 0.3s,
+    opacity 0.3s;
+}
+
+#nav-toggle::before {
+  top: 0;
+}
+
+#nav-toggle span {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#nav-toggle::after {
+  bottom: 0;
+}
+
+#nav-toggle.open::before {
+  transform: translateY(8px) rotate(45deg);
+}
+
+#nav-toggle.open span {
+  opacity: 0;
+}
+
+#nav-toggle.open::after {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+#nav-menu {
+  display: none;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    top: 100px;
+    width: auto;
+  }
+}
+
+#nav-menu a {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: black;
+  margin: 20px;
+
+  @media (min-width: 768px) {
+    margin: 30px;
+    font-size: 1.5em;
+  }
+}
+
+#nav-menu a:hover {
+  background-color: #f0f0f0;
+}
+
+#nav-toggle.open + #nav-menu {
+  display: block;
 }

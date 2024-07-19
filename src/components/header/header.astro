@@ -11,7 +11,11 @@ import "./header.css";
     <div class='logo'>
       <a href='/'>Roast Dinners Around The World</a>
     </div>
-    <nav>
+    <button id='nav-toggle' aria-label='Toggle Navigation Menu'
+      ><span></span></button
+    >
+
+    <nav id='nav-menu'>
       <a href='/'>Home</a>
       <a href='/about'>About</a>
       <a href='/league-of-roasts'>League Of Roasts</a>
@@ -20,4 +24,17 @@ import "./header.css";
       <a href='/where-should-i-go'>Where Should I Go?</a>
     </nav>
   </div>
+  <script>
+    document
+      .getElementById("nav-toggle")
+      .addEventListener("click", function () {
+        this.classList.toggle("open");
+        var menu = document.getElementById("nav-menu");
+        if (menu.style.display === "block") {
+          menu.style.display = "none";
+        } else {
+          menu.style.display = "block";
+        }
+      });
+  </script>
 </header>
