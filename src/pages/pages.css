@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+  margin: 0 10px;
+
+  p {
+    line-height: 1.5;
+    color: #333;
+    text-align: left;
+  }
+}

@@ -89,27 +89,28 @@ const singlePost = data.post;
   pageTitle={singlePost.title}
   description={singlePost.seo.opengraphDescription}
   opengraphImage={singlePost.seo.opengraphImage.sourceUrl}
-/>
-<Image
-  src={singlePost.featuredImage.node.sourceUrl}
-  alt={singlePost.title}
-  width={5000}
-  height={5000}
-  class='featured-image'
-/>
-<div class='container'>
-  <h2>{singlePost.title}</h2>
-  <div set:html={singlePost.content} />
-  <p>
-    <strong>Rating:</strong>
-    {singlePost.rating}
-  </p>
-  <p>
-    <strong>Country:</strong>
-    {singlePost.country.country}
-  </p>
-  <p>
-    <strong>Year visited:</strong>
-    {new Date(singlePost.date).getFullYear()}
-  </p>
-</div>
+>
+  <Image
+    src={singlePost.featuredImage.node.sourceUrl}
+    alt={singlePost.title}
+    width={5000}
+    height={5000}
+    class='featured-image'
+  />
+  <div class='container'>
+    <h2>{singlePost.title}</h2>
+    <div set:html={singlePost.content} />
+    <p>
+      <strong>Rating:</strong>
+      {singlePost.rating}
+    </p>
+    <p>
+      <strong>Country:</strong>
+      {singlePost.country.country}
+    </p>
+    <p>
+      <strong>Year visited:</strong>
+      {new Date(singlePost.date).getFullYear()}
+    </p>
+  </div>
+</BaseLayout>

@@ -1,7 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 const pageTitle = "Roast Dinners About";
-import "./about.css";
+import "./pages.css";
 ---
 
-<BaseLayout pageTitle={pageTitle} />
+<BaseLayout pageTitle={pageTitle}>
+  <div class='container'>
+    <h2>About:</h2>
+  </div>
+</BaseLayout>
