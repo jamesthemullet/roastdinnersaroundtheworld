@@ -42,19 +42,21 @@ const sortedByRating = (posts) => {
 ---
 
 <BaseLayout pageTitle='League Of Roasts Around The World'>
-  <h2>League Of Roasts:</h2>
-  <ol>
-    {
-      sortedByRating(posts).map((post) => (
-        <li>
-          <p>
-            <a href={post.slug} target='_blank' rel='noopener noreferrer'>
-              <Fragment set:html={post.title} />
-            </a>{" "}
-            - {post.country.rating}
-          </p>
-        </li>
-      ))
-    }
-  </ol>
+  <div class='container'>
+    <h2>League Of Roasts:</h2>
+    <ol>
+      {
+        sortedByRating(posts).map((post) => (
+          <li>
+            <p>
+              <a href={post.slug} target='_blank' rel='noopener noreferrer'>
+                <Fragment set:html={post.title} />
+              </a>{" "}
+              - {post.country.rating}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
 </BaseLayout>
