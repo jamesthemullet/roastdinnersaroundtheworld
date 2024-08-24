@@ -18,6 +18,7 @@ header {
     text-decoration: none;
     padding-right: 1rem;
     font-family: "yellowtail", "Roboto", sans-serif;
+    max-height: 100px;
 
     img {
       width: 50px;
@@ -145,11 +146,9 @@ header {
   padding: 10px 20px;
   text-decoration: none;
   color: black;
-  margin: 20px;
   font-family: "yellowtail", "Roboto", sans-serif;
 
   @media (min-width: 768px) {
-    padding: 30px;
     font-size: 1.5em;
   }
 
