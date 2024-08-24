@@ -149,7 +149,7 @@ header {
   font-family: "yellowtail", "Roboto", sans-serif;
 
   @media (min-width: 768px) {
-    margin: 30px;
+    padding: 30px;
     font-size: 1.5em;
   }
 
