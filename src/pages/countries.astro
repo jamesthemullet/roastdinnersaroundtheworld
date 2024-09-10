@@ -1,11 +1,67 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-const pageTitle = "All The Countries With Roast Dinners";
 import "./pages.css";
+
+const singleResponse = await fetch(
+  "https://www.roastdinnersaroundtheworld.com/graphql",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: `
+        query SinglePost($id: ID = "272") {
+          page(idType: DATABASE_ID, id: $id) {
+            date
+            content
+            title
+            featuredImage {
+              node {
+                sourceUrl
+              }
+            }
+            seo {
+              opengraphTitle
+              opengraphDescription
+              opengraphSiteName
+              opengraphImage {
+                uri
+                altText
+                mediaDetails {
+                  file
+                  height
+                  width
+                }
+                mediaItemUrl
+                sourceUrl
+                srcSet
+              }
+            }
+          }
+        }
+        `,
+    }),
+  }
+);
+
+const { data } = await singleResponse.json();
+
+const singlePost = data.page;
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout
+  pageTitle={singlePost.title}
+  description={singlePost.seo.opengraphDescription}
+  opengraphImage={singlePost.seo.opengraphImage?.sourceUrl}
+>
+  <!-- <Image
+    src={singlePost.featuredImage?.node.sourceUrl}
+    alt={singlePost.title}
+    width={5000}
+    height={5000}
+    class='featured-image'
+  /> -->
   <div class='container'>
-    <h2>Countries:</h2>
+    <h2>{singlePost.title}</h2>
+    <div set:html={singlePost.content} />
   </div>
 </BaseLayout>
