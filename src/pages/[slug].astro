@@ -53,7 +53,7 @@ const singleResponse = await fetch(
                 sourceUrl
               }
             }
-            country {
+            customfields {
               country
               rating
             }
@@ -104,11 +104,11 @@ console.log(10, singlePost);
     <div set:html={singlePost.content} />
     <p>
       <strong>Rating:</strong>
-      {singlePost.country.rating}
+      {singlePost.customfields.rating}
     </p>
     <p>
       <strong>Country:</strong>
-      {singlePost.country.country}
+      {singlePost.customfields.country}
     </p>
     <p>
       <strong>Year visited:</strong>
