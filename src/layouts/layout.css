@@ -19,6 +19,10 @@ div.page-container {
   }
 }
 
+.container {
+  max-width: 1000px;
+}
+
 div.logoandtitle {
   @media (max-width: 768px) {
     text-align: center;
