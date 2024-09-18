@@ -86,3 +86,8 @@
     grid-column: 1 / 2; /* Each item takes the full width */
   }
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+}
