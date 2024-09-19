@@ -3,6 +3,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import "./league-of-roasts.css";
 import "./../layouts/layout.css";
 import { Image } from "astro:assets";
+import console from "console";
+import SortPosts from "../components/sortPosts";
 
 const response = await fetch(
   "https://www.roastdinnersaroundtheworld.com/wp-json/wp/v2/posts"
@@ -44,8 +46,12 @@ const { data } = await postsResponse.json();
 
 const posts = data.posts.nodes;
 
-const sortedByRating = (posts) => {
-  return posts.sort((a, b) => b.customfields.rating - a.customfields.rating);
+const sortedByColumn = (posts, column, order) => {
+  return posts.sort((a, b) => {
+    if (a.customfields[column] < b.customfields[column]) return order === 'asc' ? -1 : 1;
+    if (a.customfields[column] > b.customfields[column]) return order === 'asc' ? 1 : -1;
+    return 0;
+  });
 };
 
 const singleResponse = await fetch(
@@ -81,23 +87,6 @@ const singlePost = singleResponseData.page;
   <Image src={singlePost.featuredImage?.node.sourceUrl} alt={singlePost.title} width={2000} height={2000} class='featured-image' />
   <div class='container'>
     <h2>League Of Roasts:</h2>
-    <ol class='grid-container'>
-      {
-        sortedByRating(posts).map((post) => (
-          <li class='grid-item'>
-            <a href={post.slug} target='_blank' rel='noopener noreferrer'>
-              <Fragment set:html={post.title} />
-            </a>
-            <span>{post.customfields.rating}</span>
-            <span>
-              {`${post.customfields.currency}${post.customfields.price}`}
-            </span>
-            <span>{post.customfields.meat}</span>
-            <span>{post.customfields.country}</span>
-            <span>{post.customfields.yearVisited}</span>
-          </li>
-        ))
-      }
-    </ol>
+    <SortPosts posts={posts} client:load />
   </div>
 </BaseLayout>
