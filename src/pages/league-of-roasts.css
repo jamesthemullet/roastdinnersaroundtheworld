@@ -91,3 +91,25 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+.sort-posts {
+  display: flex;
+  flex-direction: row;
+  margin-left: 16px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+
+  label {
+    color: black;
+    text-decoration: underline;
+  }
+
+  button,
+  select {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px;
+    cursor: pointer;
+  }
+}
