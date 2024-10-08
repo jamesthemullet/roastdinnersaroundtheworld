@@ -48,8 +48,10 @@ const posts = data.posts.nodes;
 
 const sortedByColumn = (posts, column, order) => {
   return posts.sort((a, b) => {
-    if (a.customfields[column] < b.customfields[column]) return order === 'asc' ? -1 : 1;
-    if (a.customfields[column] > b.customfields[column]) return order === 'asc' ? 1 : -1;
+    if (a.customfields[column] < b.customfields[column])
+      return order === "asc" ? -1 : 1;
+    if (a.customfields[column] > b.customfields[column])
+      return order === "asc" ? 1 : -1;
     return 0;
   });
 };
@@ -84,7 +86,13 @@ const singlePost = singleResponseData.page;
 ---
 
 <BaseLayout pageTitle='League Of Roasts Around The World'>
-  <Image src={singlePost.featuredImage?.node.sourceUrl} alt={singlePost.title} width={2000} height={2000} class='featured-image' />
+  <Image
+    src={singlePost.featuredImage?.node.sourceUrl}
+    alt={singlePost.title}
+    width={2000}
+    height={2000}
+    class='featured-image'
+  />
   <div class='container'>
     <h2>League Of Roasts:</h2>
     <SortPosts posts={posts} client:load />
