@@ -9,6 +9,12 @@ export default {
         parser: "astro",
       },
     },
+    {
+      files: "*.tsx",
+      options: {
+        parser: "typescript",
+      },
+    },
   ],
   config: {
     semi: true,
@@ -17,7 +23,7 @@ export default {
     singleQuote: false,
     trailingComma: "none",
     jsxBracketSameLine: true,
-    endOfLine: auto,
+    endOfLine: "auto",
   },
 };
 
