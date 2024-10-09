@@ -14,47 +14,71 @@ const totalPosts = response.headers.get("X-WP-Total");
 
 console.log(`Total number of posts: ${totalPosts}`);
 
-const postsResponse = await fetch(
-  "https://www.roastdinnersaroundtheworld.com/graphql",
-  {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: `
-        query AllSlugs {
-          posts {
-            nodes {
-              slug
-              title
-              customfields {
-                rating
-                currency
-                price
-                meat
-                country
-                yearVisited
+const fetchPostsAndCurrency = async () => {
+  const postsResponse = fetch(
+    "https://www.roastdinnersaroundtheworld.com/graphql",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: `
+          query AllSlugs {
+            posts {
+              nodes {
+                slug
+                title
+                customfields {
+                  rating
+                  currency
+                  price
+                  meat
+                  country
+                  yearVisited
+                }
               }
             }
           }
-        }
         `,
-    }),
-  }
-);
+      }),
+    }
+  );
 
-const { data } = await postsResponse.json();
+  const currencyResponse = fetch(
+    "https://api.exchangerate-api.com/v4/latest/GBP"
+  );
 
-const posts = data.posts.nodes;
+  const [postsData, currencyData] = await Promise.all([
+    postsResponse,
+    currencyResponse,
+  ]);
 
-const sortedByColumn = (posts, column, order) => {
-  return posts.sort((a, b) => {
-    if (a.customfields[column] < b.customfields[column])
-      return order === "asc" ? -1 : 1;
-    if (a.customfields[column] > b.customfields[column])
-      return order === "asc" ? 1 : -1;
-    return 0;
+  const postsJson = await postsData.json();
+  const currencyJson = await currencyData.json();
+
+  const posts = postsJson.data.posts.nodes;
+  const currencyRates = currencyJson.rates;
+
+  const postsWithConvertedPrices = posts.map((post) => {
+    const { currency, price } = post.customfields;
+    const convertedPrice = currencyRates[currency]
+      ? price / currencyRates[currency]
+      : price;
+
+    console.log(30, typeof convertedPrice);
+
+    return {
+      ...post,
+      customfields: {
+        ...post.customfields,
+        convertedPrice,
+      },
+    };
   });
+
+  return postsWithConvertedPrices;
 };
+
+const posts = await fetchPostsAndCurrency();
 
 const singleResponse = await fetch(
   "https://www.roastdinnersaroundtheworld.com/graphql",
