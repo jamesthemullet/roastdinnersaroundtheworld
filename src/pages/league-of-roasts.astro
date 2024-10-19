@@ -64,8 +64,6 @@ const fetchPostsAndCurrency = async () => {
       ? price / currencyRates[currency]
       : price;
 
-    console.log(30, typeof convertedPrice);
-
     return {
       ...post,
       customfields: {
@@ -109,15 +107,15 @@ const { data: singleResponseData } = await singleResponse.json();
 const singlePost = singleResponseData.page;
 ---
 
-<BaseLayout pageTitle='League Of Roasts Around The World'>
+<BaseLayout pageTitle="League Of Roasts Around The World">
   <Image
     src={singlePost.featuredImage?.node.sourceUrl}
     alt={singlePost.title}
     width={2000}
     height={2000}
-    class='featured-image'
+    class="featured-image"
   />
-  <div class='container'>
+  <div class="container">
     <h2>League Of Roasts:</h2>
     <SortPosts posts={posts} client:load />
   </div>
