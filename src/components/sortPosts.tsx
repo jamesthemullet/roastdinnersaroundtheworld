@@ -142,7 +142,9 @@ const SortPosts = ({ posts }) => {
         />
       </div>
 
-      <button onClick={clearFilters}>Clear All Filters</button>
+      <button className="clear-button" onClick={clearFilters}>
+        Clear All Filters
+      </button>
 
       <ol className="grid-container">
         {sortedPosts.map((post) => {

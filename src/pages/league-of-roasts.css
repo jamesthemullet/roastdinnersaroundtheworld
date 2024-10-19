@@ -1,3 +1,7 @@
+.container {
+  min-height: 60vh;
+}
+
 .grid-container {
   display: grid;
   list-style: none;
@@ -56,27 +60,31 @@
   }
 
   .grid-item a {
-    grid-column: 1 / 11; /* Title spans both columns */
+    grid-column: 1 / 4; /* Title spans all columns */
   }
 
   .grid-item span:nth-child(2) {
-    grid-column: 11 / 12; /* Rating in the first column */
+    grid-column: 1 / 2; /* Rating in the first column */
   }
 
   .grid-item span:nth-child(3) {
-    grid-column: 1 / 2; /* Price in the second column */
+    grid-column: 2 / 3; /* Price in the second column */
   }
 
   .grid-item span:nth-child(4) {
-    grid-column: 2 / 3; /* Meat in the first column */
+    grid-column: 3 / 4; /* Meat in the third column */
   }
 
   .grid-item span:nth-child(5) {
-    grid-column: 4 / 5; /* Country in the second column */
+    grid-column: 1 / 2; /* Country in the first column */
   }
 
   .grid-item span:nth-child(6) {
-    grid-column: 11 / 12; /* Year visited spans both columns */
+    grid-column: 2 / 3; /* Year visited in the second column */
+  }
+
+  .grid-item span:nth-child(7) {
+    grid-column: 3 / 4; /* Another item in the third column */
   }
 }
 
@@ -87,7 +95,7 @@
 
   .grid-item a,
   .grid-item span {
-    grid-column: 1 / 2; /* Each item takes the full width */
+    grid-column: 1 / -1; /* Ensure all items span the entire width */
   }
 }
 
@@ -96,24 +104,37 @@ img {
   height: auto;
 }
 
-.sort-posts {
+.sort-posts,
+.filter-posts {
   display: flex;
-  flex-direction: row;
-  margin-left: 16px;
+  flex-direction: column;
   gap: 8px;
-  align-items: center;
-  margin-bottom: 8px;
+  font-size: 0.9rem;
 
   label {
     color: black;
     text-decoration: underline;
+    min-width: 80px;
+    margin: 0 16px;
   }
 
-  button,
-  select {
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 8px;
-    cursor: pointer;
+  @media (min-width: 600px) {
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
   }
+}
+
+button,
+select,
+input {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 8px;
+  margin: 0 16px 8px;
+  cursor: pointer;
+}
+
+.clear-button {
+  margin-left: 16px;
 }
