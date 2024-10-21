@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@astrojs/partytown": "^2.1.1",
-    "@astrojs/react": "^3.6.2",
+    "@astrojs/react": "2.3.2",
     "@fontsource/yellowtail": "^5.0.19",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
@@ -18,8 +18,8 @@
     "husky": "^9.0.11",
     "lint-staged": "^15.2.5",
     "prettier-config-standard": "^7.0.0",
-    "react": "^19.0.0-beta",
-    "react-dom": "^19.0.0-beta"
+    "react": "18",
+    "react-dom": "18"
   },
   "scripts": {
     "dev": "astro dev",

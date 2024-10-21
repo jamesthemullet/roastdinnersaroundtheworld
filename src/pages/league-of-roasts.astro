@@ -117,6 +117,6 @@ const singlePost = singleResponseData.page;
   />
   <div class="container">
     <h2>League Of Roasts:</h2>
-    <SortPosts posts={posts} client:load />
+    <SortPosts posts={posts} client:only="react" />
   </div>
 </BaseLayout>
