@@ -46,7 +46,6 @@ const SortPosts = ({ posts }) => {
   ]);
 
   const handleSortChange = (e) => {
-    console.log(10, e);
     const newSortColumn = e.target.value;
     setSortColumn(newSortColumn);
   };
