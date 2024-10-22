@@ -30,18 +30,18 @@ export async function getStaticPaths() {
 }
 ---
 
-<BaseLayout pageTitle='Home'>
+<BaseLayout pageTitle="Home">
   <h2>Latest Reviews:</h2>
   <ul>
     {
       posts.map((post, index) => (
         <li>
           <h3>
-            <a href={post.slug} target='_blank' rel='noopener noreferrer'>
+            <a href={post.slug} rel="noopener noreferrer">
               <Fragment set:html={post.title.rendered} />
             </a>{" "}
           </h3>
-          <a href={post.slug} target='_blank' rel='noopener noreferrer'>
+          <a href={post.slug} rel="noopener noreferrer">
             <Image
               src={post.featured_image}
               alt={`Photo of the roast dinner at {post.title.rendered}`}

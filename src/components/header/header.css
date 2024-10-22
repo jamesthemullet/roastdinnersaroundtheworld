@@ -161,10 +161,10 @@ header {
 }
 
 #nav-menu a:hover {
-  background-color: #f0f0f0;
+  color: #603d34;
 
   @media (min-width: 1200px) {
-    background-color: #444;
+    color: #603d34;
   }
 }
 
