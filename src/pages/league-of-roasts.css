@@ -105,23 +105,32 @@ img {
 }
 
 .sort-posts,
-.filter-posts {
+.filter-posts,
+.toggle-columns {
   display: flex;
   flex-direction: column;
   gap: 8px;
   font-size: 0.9rem;
+  margin-bottom: 16px;
 
   label {
-    color: black;
-    text-decoration: underline;
-    min-width: 80px;
-    margin: 0 16px;
+    color: #333;
+    min-width: 100px;
+
+    &:first-of-type {
+      margin-left: 16px;
+    }
   }
 
   @media (min-width: 600px) {
     flex-direction: row;
-    gap: 16px;
+    gap: 8px;
     align-items: center;
+  }
+
+  p {
+    margin: 0 16px 8px;
+    color: #333;
   }
 }
 
@@ -131,7 +140,7 @@ input {
   background-color: white;
   border: 1px solid #ccc;
   padding: 8px;
-  margin: 0 16px 8px;
+  margin: 0;
   cursor: pointer;
 }
 

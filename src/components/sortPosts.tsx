@@ -10,6 +10,16 @@ const SortPosts = ({ posts }) => {
   const [scoreFilter, setScoreFilter] = useState("");
   const [priceFilter, setPriceFilter] = useState("");
 
+  const [showYearVisited, setShowYearVisited] = useState(true);
+  const [showCountry, setShowCountry] = useState(true);
+  const [showMeat, setShowMeat] = useState(true);
+  const [showPrice, setShowPrice] = useState(true);
+  const [showConvertedPrice, setShowConvertedPrice] = useState(true);
+
+  const handleCheckboxChange = (setter) => () => {
+    setter((prev) => !prev);
+  };
+
   const sortedByColumn = (posts, column, order) => {
     return [...posts].sort((a, b) => {
       if (a.customfields[column] < b.customfields[column])
@@ -77,6 +87,45 @@ const SortPosts = ({ posts }) => {
 
   return (
     <div>
+      <div className="toggle-columns">
+        <p>Show/hide columns:</p>
+        <input
+          type="checkbox"
+          id="price"
+          checked={showPrice}
+          onChange={handleCheckboxChange(setShowPrice)}
+        />
+        <label htmlFor="price">Price</label>
+        <input
+          type="checkbox"
+          id="convertedPrice"
+          checked={showConvertedPrice}
+          onChange={handleCheckboxChange(setShowConvertedPrice)}
+        />
+        <label htmlFor="convertedPrice">Converted Price</label>
+        <input
+          type="checkbox"
+          id="meat"
+          checked={showMeat}
+          onChange={handleCheckboxChange(setShowMeat)}
+        />
+        <label htmlFor="meat">Meat</label>
+        <input
+          type="checkbox"
+          id="country"
+          checked={showCountry}
+          onChange={handleCheckboxChange(setShowCountry)}
+        />
+        <label htmlFor="country">Country</label>
+        <input
+          type="checkbox"
+          id="yearVisited"
+          checked={showYearVisited}
+          onChange={handleCheckboxChange(setShowYearVisited)}
+        />
+        <label htmlFor="yearVisited">Year Visited</label>
+      </div>
+
       <div className="sort-posts">
         <label htmlFor="sort-column">Sort by: </label>
         <select id="sort-column" onChange={handleSortChange} value={sortColumn}>
@@ -162,11 +211,11 @@ const SortPosts = ({ posts }) => {
                 {post.title}
               </a>
               <span>{rating}</span>
-              <span>{`${currency}${price}`}</span>
-              <span>£{convertedPrice.toFixed(2)}</span>
-              <span>{meat}</span>
-              <span>{country}</span>
-              <span>{yearVisited}</span>
+              {showPrice && <span>{`${currency}${price}`}</span>}
+              {showConvertedPrice && <span>£{convertedPrice.toFixed(2)}</span>}
+              {showMeat && <span>{meat}</span>}
+              {showCountry && <span>{country}</span>}
+              {showYearVisited && <span>{yearVisited}</span>}
             </li>
           );
         })}
