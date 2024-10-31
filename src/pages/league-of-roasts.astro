@@ -93,6 +93,7 @@ const singleResponse = await fetch(
             featuredImage {
               node {
                 sourceUrl
+                srcSet
               }
             }
           }
@@ -114,6 +115,9 @@ const singlePost = singleResponseData.page;
     width={2000}
     height={2000}
     class="featured-image"
+    loading="eager"
+    srcset={singlePost.featuredImage.node.srcSet}
+    sizes=`(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw`
   />
   <div class="container">
     <h2>League Of Roasts:</h2>

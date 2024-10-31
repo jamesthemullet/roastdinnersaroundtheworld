@@ -18,6 +18,7 @@ const singleResponse = await fetch(
             featuredImage {
               node {
                 sourceUrl
+                srcSet
               }
             }
             seo {
@@ -59,9 +60,12 @@ const singlePost = data.page;
     alt={singlePost.title}
     width={2000}
     height={2000}
-    class='featured-image'
+    class="featured-image"
+    loading="eager"
+    srcset={singlePost.featuredImage.node.srcSet}
+    sizes=`(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw`
   />
-  <div class='container'>
+  <div class="container">
     <h2>{singlePost.title}</h2>
     <div set:html={singlePost.content} />
   </div>
