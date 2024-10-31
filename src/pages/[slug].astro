@@ -96,9 +96,10 @@ const singlePost = data.post;
     alt={singlePost.title}
     width={5000}
     height={5000}
-    class='featured-image'
+    class="featured-image"
+    loading="eager"
   />
-  <div class='container'>
+  <div class="container">
     <h2>{singlePost.title}</h2>
     <div set:html={singlePost.content} />
     <p>
