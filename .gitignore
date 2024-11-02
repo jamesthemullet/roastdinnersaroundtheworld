@@ -57,3 +57,6 @@ wp-config.php
 /playwright/.cache/
 
 .vercel
+
+# Ignore build output
+dist/
