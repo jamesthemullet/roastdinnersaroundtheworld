@@ -24,6 +24,7 @@ jobs:
           budgetPath: ".github/lighthouse/budget.json"
           uploadArtifacts: true
           runs: 3
+          settings: '{"onlyCategories": ["performance"], "throttlingMethod": "provided"}'
       - name: Format lighthouse score
         id: format_lighthouse_score
         uses: actions/github-script@v3
@@ -35,7 +36,7 @@ jobs:
             Object.keys(result).forEach(key => result[key] = formatResult(result[key]))
             const score = res => res >= 90 ? '🟢' : res >= 50 ? '🟠' : '🔴'
             const comment = [
-                `⚡️ [Lighthouse report] for the changes in this PR:`,
+                `⚡️ [Lighthouse report](${steps.vercel_action.outputs.preview-url}) for the changes in this PR:`, # Preview URL link
                 '| Category | Score |',
                 '| --- | --- |',
                 `| ${score(result.performance)} Performance | ${result.performance} |`,
@@ -45,7 +46,7 @@ jobs:
                 `| ${score(result.pwa)} PWA | ${result.pwa} |`,
                 ' ',
             ].join('\n')
-             core.setOutput("comment", comment);
+            core.setOutput("comment", comment);
       - name: Add comment to PR
         id: comment_to_pr
         uses: marocchino/sticky-pull-request-comment@v1
