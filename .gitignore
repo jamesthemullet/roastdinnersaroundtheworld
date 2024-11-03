@@ -58,4 +58,5 @@ wp-config.php
 
 .vercel
 
+# Ignore build output
 dist/

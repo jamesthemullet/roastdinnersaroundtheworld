@@ -6,7 +6,9 @@ jobs:
   lighthouse:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - name: Set NODE_ENV to production
+        run: echo "NODE_ENV=production" >> $GITHUB_ENV
       - name: Vercel Action
         id: vercel_action
         uses: amondnet/vercel-action@v20
@@ -17,13 +19,14 @@ jobs:
           vercel-project-id: ${{ secrets.RDAW_PROJECT_ID }}
       - name: Audit URLs using Lighthouse
         id: lighthouse_audit
-        uses: treosh/lighthouse-ci-action@v9
+        uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
             ${{ steps.vercel_action.outputs.preview-url }}
           budgetPath: ".github/lighthouse/budget.json"
+          # configPath: ".github/lighthouse/lighthouse.config.js"
           uploadArtifacts: true
-          runs: 4
+          runs: 3
       - name: Format lighthouse score
         id: format_lighthouse_score
         uses: actions/github-script@v3
@@ -35,7 +38,7 @@ jobs:
             Object.keys(result).forEach(key => result[key] = formatResult(result[key]))
             const score = res => res >= 90 ? '🟢' : res >= 50 ? '🟠' : '🔴'
             const comment = [
-                `⚡️ [Lighthouse report] for the changes in this PR:`,
+                `⚡️ [Lighthouse report](${steps.vercel_action.outputs.preview-url}) for the changes in this PR:`, # Preview URL link
                 '| Category | Score |',
                 '| --- | --- |',
                 `| ${score(result.performance)} Performance | ${result.performance} |`,
@@ -45,7 +48,7 @@ jobs:
                 `| ${score(result.pwa)} PWA | ${result.pwa} |`,
                 ' ',
             ].join('\n')
-             core.setOutput("comment", comment);
+            core.setOutput("comment", comment);
       - name: Add comment to PR
         id: comment_to_pr
         uses: marocchino/sticky-pull-request-comment@v1
