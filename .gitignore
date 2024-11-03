@@ -57,3 +57,5 @@ wp-config.php
 /playwright/.cache/
 
 .vercel
+
+dist/
