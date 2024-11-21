@@ -51,6 +51,7 @@ const singleResponse = await fetch(
             featuredImage {
               node {
                 sourceUrl
+                srcSet
               }
             }
             customfields {
@@ -84,6 +85,8 @@ const singleResponse = await fetch(
 const { data } = await singleResponse.json();
 
 const singlePost = data.post;
+
+console.log(20, singlePost.featuredImage.srcSet);
 ---
 
 <BaseLayout
@@ -94,10 +97,12 @@ const singlePost = data.post;
   <Image
     src={singlePost.featuredImage.node.sourceUrl}
     alt={singlePost.title}
-    width={5000}
-    height={5000}
+    width={3000}
+    height={3000}
     class="featured-image"
     loading="eager"
+    srcset={singlePost.featuredImage.node.srcSet}
+    sizes=`(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw`
   />
   <div class="container">
     <h2>{singlePost.title}</h2>
