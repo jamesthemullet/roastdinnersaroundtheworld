@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import "./pages.css";
 
 const singleResponse = await fetch(
-  "https://www.roastdinnersaroundtheworld.com/graphql",
+  "https://blog.roastdinnersaroundtheworld.com/graphql",
   {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -60,7 +60,7 @@ const singlePost = data.page;
     height={5000}
     class='featured-image'
   /> -->
-  <div class='container'>
+  <div class="container">
     <h2>{singlePost.title}</h2>
     <div set:html={singlePost.content} />
   </div>
