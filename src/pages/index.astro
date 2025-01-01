@@ -53,7 +53,7 @@ const otherPostsQuery = `
 `;
 
 const recentPostResponse = await fetch(
-  "https://www.roastdinnersaroundtheworld.com/graphql",
+  "https://blog.roastdinnersaroundtheworld.com/graphql",
   {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -70,7 +70,7 @@ recentPost.featured_image =
 const recentPostCursor = recentPostData.data.posts.pageInfo.endCursor;
 
 const otherPostsResponse = await fetch(
-  "https://www.roastdinnersaroundtheworld.com/graphql",
+  "https://blog.roastdinnersaroundtheworld.com/graphql",
   {
     method: "POST",
     headers: { "Content-Type": "application/json" },
