@@ -2,50 +2,19 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "./pages.css";
 
-const singleResponse = await fetch(
-  "https://blog.roastdinnersaroundtheworld.com/graphql",
-  {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: `
-        query SinglePost($id: ID = "272") {
-          page(idType: DATABASE_ID, id: $id) {
-            date
-            content
-            title
-            featuredImage {
-              node {
-                sourceUrl
-              }
-            }
-            seo {
-              opengraphTitle
-              opengraphDescription
-              opengraphSiteName
-              opengraphImage {
-                uri
-                altText
-                mediaDetails {
-                  file
-                  height
-                  width
-                }
-                mediaItemUrl
-                sourceUrl
-                srcSet
-              }
-            }
-          }
-        }
-        `,
-    }),
-  }
-);
+import SINGLE_POST_QUERY from "../lib/graphql/queries/singlePost";
+import { fetchGraphQL } from "../lib/api";
 
-const { data } = await singleResponse.json();
+const variables = { id: "272" };
+let singlePost;
 
-const singlePost = data.page;
+try {
+  const { page } = await fetchGraphQL(SINGLE_POST_QUERY, variables);
+  singlePost = page;
+} catch (error) {
+  console.error("Error fetching GraphQL data:", error);
+  singlePost = null;
+}
 ---
 
 <BaseLayout

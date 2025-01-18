@@ -21,7 +21,7 @@ export default {
     tabWidth: 2,
     printWidth: 100,
     singleQuote: false,
-    trailingComma: "none",
+    trailingComma: "es5",
     jsxBracketSameLine: true,
     endOfLine: "auto",
   },

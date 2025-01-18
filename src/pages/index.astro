@@ -2,92 +2,47 @@
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "./index.css";
+import { fetchGraphQL } from "../lib/api";
+import MOST_RECENT_POST_QUERY from "../lib/graphql/queries/mostRecentPost";
+import OTHER_POSTS_AFTER_FIRST_QUERY from "../lib/graphql/queries/otherPostsAfterFirst";
 
-const recentPostQuery = `
-  query GetMostRecentPost {
-    posts(first: 1) {
-      nodes {
-        id
-        slug
-        title
-        date
-        featuredImage {
-          node {
-            mediaDetails {
-              sizes {
-                sourceUrl
-                name
-              }
-            }
-          }
-        }
-      }
-      pageInfo {
-        endCursor
-      }
-    }
+let recentPost;
+let recentPostCursor;
+
+try {
+  const data = await fetchGraphQL(MOST_RECENT_POST_QUERY);
+  recentPost = data?.posts?.nodes?.[0];
+  recentPostCursor = data?.posts?.pageInfo?.endCursor;
+
+  if (recentPost) {
+    recentPost.featured_image =
+      recentPost.featuredImage?.node?.mediaDetails?.sizes?.find(
+        (size) => size.name === "medium_large"
+      )?.sourceUrl;
   }
-`;
+} catch (error) {
+  console.error("Error fetching the most recent post:", error);
+  recentPost = null;
+}
 
-const otherPostsQuery = `
-  query GetOtherPosts($after: String) {
-    posts(first: 13, after: $after) {
-      nodes {
-        id
-        slug
-        title
-        date
-        featuredImage {
-          node {
-            mediaDetails {
-              sizes {
-                sourceUrl
-                name
-              }
-            }
-          }
-        }
-      }
-    }
+let otherPosts = [];
+
+if (recentPostCursor) {
+  try {
+    const data = await fetchGraphQL(OTHER_POSTS_AFTER_FIRST_QUERY, {
+      after: recentPostCursor,
+    });
+    otherPosts =
+      data?.posts?.nodes?.map((post) => ({
+        ...post,
+        featured_image: post.featuredImage?.node?.mediaDetails?.sizes?.find(
+          (size) => size.name === "medium_large"
+        )?.sourceUrl,
+      })) || [];
+  } catch (error) {
+    console.error("Error fetching other posts:", error);
   }
-`;
-
-const recentPostResponse = await fetch(
-  "https://blog.roastdinnersaroundtheworld.com/graphql",
-  {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ query: recentPostQuery }),
-  }
-);
-
-const recentPostData = await recentPostResponse.json();
-const recentPost = recentPostData.data.posts.nodes[0];
-recentPost.featured_image =
-  recentPost.featuredImage.node.mediaDetails.sizes.find(
-    (size) => size.name === "medium_large"
-  ).sourceUrl;
-const recentPostCursor = recentPostData.data.posts.pageInfo.endCursor;
-
-const otherPostsResponse = await fetch(
-  "https://blog.roastdinnersaroundtheworld.com/graphql",
-  {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: otherPostsQuery,
-      variables: { after: recentPostCursor },
-    }),
-  }
-);
-
-const otherPostsData = await otherPostsResponse.json();
-const otherPosts = otherPostsData.data.posts.nodes.map((post) => ({
-  ...post,
-  featured_image: post.featuredImage.node.mediaDetails.sizes.find(
-    (size) => size.name === "medium_large"
-  ).sourceUrl,
-}));
+}
 
 const posts = [recentPost, ...otherPosts];
 ---
