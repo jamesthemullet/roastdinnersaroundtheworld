@@ -10,101 +10,59 @@ const response = await fetch(
   "https://blog.roastdinnersaroundtheworld.com/wp-json/wp/v2/posts"
 );
 
+import ALL_POSTS_QUERY from "../lib/graphql/queries/allPosts";
+import SINGLE_POST_QUERY from "../lib/graphql/queries/singlePost";
+import { fetchGraphQL } from "../lib/api.js";
+
 const totalPosts = response.headers.get("X-WP-Total");
 
 console.log(`Total number of posts: ${totalPosts}`);
 
 const fetchPostsAndCurrency = async () => {
-  const postsResponse = fetch(
-    "https://blog.roastdinnersaroundtheworld.com/graphql",
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: `
-          query AllSlugs {
-            posts {
-              nodes {
-                slug
-                title
-                customfields {
-                  rating
-                  currency
-                  price
-                  meat
-                  country
-                  yearVisited
-                }
-              }
-            }
-          }
-        `,
-      }),
-    }
-  );
+  try {
+    const [postsResponse, currencyResponse] = await Promise.all([
+      fetchGraphQL(ALL_POSTS_QUERY),
+      fetch("https://api.exchangerate-api.com/v4/latest/GBP"),
+    ]);
 
-  const currencyResponse = fetch(
-    "https://api.exchangerate-api.com/v4/latest/GBP"
-  );
+    const posts = postsResponse.posts.nodes;
+    const currencyData = await currencyResponse.json();
+    const currencyRates = currencyData.rates;
 
-  const [postsData, currencyData] = await Promise.all([
-    postsResponse,
-    currencyResponse,
-  ]);
+    const postsWithConvertedPrices = posts.map((post) => {
+      const { currency, price } = post.customfields || {};
+      const convertedPrice = currencyRates[currency]
+        ? price / currencyRates[currency]
+        : price;
 
-  const postsJson = await postsData.json();
-  const currencyJson = await currencyData.json();
+      return {
+        ...post,
+        customfields: {
+          ...post.customfields,
+          convertedPrice,
+        },
+      };
+    });
 
-  const posts = postsJson.data.posts.nodes;
-  const currencyRates = currencyJson.rates;
-
-  const postsWithConvertedPrices = posts.map((post) => {
-    const { currency, price } = post.customfields;
-    const convertedPrice = currencyRates[currency]
-      ? price / currencyRates[currency]
-      : price;
-
-    return {
-      ...post,
-      customfields: {
-        ...post.customfields,
-        convertedPrice,
-      },
-    };
-  });
-
-  return postsWithConvertedPrices;
+    return postsWithConvertedPrices;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return [];
+  }
 };
 
 const posts = await fetchPostsAndCurrency();
 
-const singleResponse = await fetch(
-  "https://blog.roastdinnersaroundtheworld.com/graphql",
-  {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: `
-        query SinglePost($id: ID = "205") {
-          page(idType: DATABASE_ID, id: $id) {
-            date
-            content
-            title
-            featuredImage {
-              node {
-                sourceUrl
-              }
-            }
-          }
-        }
-        `,
-    }),
-  }
-);
+const variables = { id: "205" };
+let singlePost;
 
-const { data: singleResponseData } = await singleResponse.json();
-
-const singlePost = singleResponseData.page;
+try {
+  const { page } = await fetchGraphQL(SINGLE_POST_QUERY, variables);
+  singlePost = page;
+} catch (error) {
+  console.error("Error fetching GraphQL data:", error);
+  singlePost = null;
+}
 ---
 
 <BaseLayout pageTitle="League Of Roasts Around The World">
