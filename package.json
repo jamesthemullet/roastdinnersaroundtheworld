@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@astrojs/partytown": "^2.1.1",
-    "@astrojs/react": "4.3.1",
+    "@astrojs/react": "4.4.0",
     "@fontsource/yellowtail": "^5.0.19",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
