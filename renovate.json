@@ -1,3 +1,13 @@
 {
-  "extends": ["config:recommended"]
+  "extends": ["config:recommended"],
+  "prConcurrentLimit": 1,
+  "prHourlyLimit": 10,
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch",
+      "minimumReleaseAge": "3 days"
+    }
+  ]
 }
