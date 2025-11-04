@@ -1,0 +1,14 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "ignoreExportsUsedInFile": {
+    "interface": true,
+    "type": true
+  },
+  "ignoreBinaries": ["wait-on", "axe"],
+  "ignoreDependencies": ["lint-staged", "prettier-config-standard"],
+  "ignore": [".astro/**", ".github/lighthouse/lighthouse.config.js"],
+  "tags": ["-lintignore"],
+  "prettier": {
+    "config": [".prettier.config.mjs"]
+  }
+}

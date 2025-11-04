@@ -68,6 +68,7 @@ import { SEO } from "astro-seo";
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-B65YEPXCGH"></script>
     <script type="text/partytown">
+      /* eslint-disable prefer-rest-params */
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
@@ -75,6 +76,7 @@ import { SEO } from "astro-seo";
       gtag("js", new Date());
 
       gtag("config", "G-B65YEPXCGH");
+      /* eslint-enable prefer-rest-params */
     </script>
   </head>
   <body>
