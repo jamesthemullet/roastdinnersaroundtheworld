@@ -78,7 +78,11 @@ import { SEO } from "astro-seo";
       gtag("config", "G-B65YEPXCGH");
       /* eslint-enable prefer-rest-params */
     </script>
-  </head>
+    <script >
+      if (import.meta.env.MODE === 'development') {
+  const { accented } = await import('accented');
+  accented();
+}</script>
   <body>
     <div class="page-container">
       <Header />
