@@ -6,7 +6,7 @@ jobs:
   lighthouse:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set NODE_ENV to production
         run: echo "NODE_ENV=production" >> $GITHUB_ENV
       - name: Vercel Action
@@ -63,7 +63,7 @@ jobs:
     env:
       GITHUB_API_SECRET: ${{ secrets.PIPELINE_GITHUB_API_SECRET }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Use Node.js 18.x
         uses: actions/setup-node@v6
         with:
