@@ -36,7 +36,7 @@
     "@types/node": "^24.10.0",
     "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.0.0",
-    "globals": "^16.1.0",
+    "globals": "^17.0.0",
     "knip": "^5.67.1",
     "prettier": "^3.2.5",
     "prettier-plugin-astro": "^0.14.0",
