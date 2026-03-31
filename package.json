@@ -28,7 +28,8 @@
     "lint:fix": "eslint --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json,astro}'",
     "prepare": "husky",
-    "lint-staged": "eslint ."
+    "lint-staged": "eslint .",
+    "ts-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@eslint/js": "^9.26.0",

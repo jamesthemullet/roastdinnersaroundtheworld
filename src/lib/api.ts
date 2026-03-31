@@ -1,4 +1,4 @@
-export async function fetchGraphQL(query, variables = {}) {
+export async function fetchGraphQL(query: string, variables: Record<string, unknown> = {}) {
   const response = await fetch(
     "https://blog.roastdinnersaroundtheworld.com/graphql",
     {
