@@ -60,3 +60,4 @@ wp-config.php
 
 # Ignore build output
 dist/
+.claude/settings.local.json
