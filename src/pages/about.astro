@@ -26,8 +26,8 @@ try {
   <Image
     src={singlePost.featuredImage?.node.sourceUrl}
     alt={singlePost.title}
-    width={2000}
-    height={2000}
+    width={singlePost.featuredImage?.node.mediaDetails?.width ?? 1200}
+    height={singlePost.featuredImage?.node.mediaDetails?.height ?? 900}
     class="featured-image"
   />
   <div class="container">
