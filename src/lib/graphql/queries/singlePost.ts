@@ -6,6 +6,10 @@ const SINGLE_POST_QUERY = `
       featuredImage {
         node {
           sourceUrl
+          mediaDetails {
+            height
+            width
+          }
         }
       }
       seo {
