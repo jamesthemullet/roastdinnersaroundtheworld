@@ -3,48 +3,22 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "./index.css";
 import { fetchGraphQL } from "../lib/api";
-import MOST_RECENT_POST_QUERY from "../lib/graphql/queries/mostRecentPost";
-import OTHER_POSTS_AFTER_FIRST_QUERY from "../lib/graphql/queries/otherPostsAfterFirst";
+import HOME_PAGE_POSTS_QUERY from "../lib/graphql/queries/homePagePosts";
 
-let recentPost;
-let recentPostCursor;
+let posts = [];
 
 try {
-  const data = await fetchGraphQL(MOST_RECENT_POST_QUERY);
-  recentPost = data?.posts?.nodes?.[0];
-  recentPostCursor = data?.posts?.pageInfo?.endCursor;
-
-  if (recentPost) {
-    recentPost.featured_image =
-      recentPost.featuredImage?.node?.mediaDetails?.sizes?.find(
+  const data = await fetchGraphQL(HOME_PAGE_POSTS_QUERY);
+  posts =
+    data?.posts?.nodes?.map((post) => ({
+      ...post,
+      featured_image: post.featuredImage?.node?.mediaDetails?.sizes?.find(
         (size) => size.name === "medium_large"
-      )?.sourceUrl;
-  }
+      )?.sourceUrl,
+    })) ?? [];
 } catch (error) {
-  console.error("Error fetching the most recent post:", error);
-  recentPost = null;
+  console.error("Error fetching home page posts:", error);
 }
-
-let otherPosts = [];
-
-if (recentPostCursor) {
-  try {
-    const data = await fetchGraphQL(OTHER_POSTS_AFTER_FIRST_QUERY, {
-      after: recentPostCursor,
-    });
-    otherPosts =
-      data?.posts?.nodes?.map((post) => ({
-        ...post,
-        featured_image: post.featuredImage?.node?.mediaDetails?.sizes?.find(
-          (size) => size.name === "medium_large"
-        )?.sourceUrl,
-      })) || [];
-  } catch (error) {
-    console.error("Error fetching other posts:", error);
-  }
-}
-
-const posts = [recentPost, ...otherPosts];
 ---
 
 <BaseLayout pageTitle="Home">

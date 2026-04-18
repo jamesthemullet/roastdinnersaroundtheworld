@@ -78,15 +78,22 @@ import { SEO } from "astro-seo";
       gtag("config", "G-B65YEPXCGH");
       /* eslint-enable prefer-rest-params */
     </script>
-    <script >
+    <script>
       if (import.meta.env.MODE === 'development') {
-  const { accented } = await import('accented');
-  accented();
-}</script>
+        try {
+          const { accented } = await import('accented');
+          accented();
+        } catch {
+          // dev-only tool; ignore import failures
+        }
+      }
+    </script>
+  </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="page-container">
       <Header />
-      <main>
+      <main id="main-content">
         <slot />
       </main>
       <Footer />

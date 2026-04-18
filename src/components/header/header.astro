@@ -8,12 +8,12 @@ import "./header.css";
 
 <header>
   <div class='nav-container'>
-    <a href='/'><Image src={logo3} alt='A bird.' width='100' height='100' /></a>
+    <a href='/'><Image src={logo3} alt='Roast Dinners Around The World - go to homepage' width='100' height='100' /></a>
     <h1 class='sr-only'>Roast Dinners Around The World</h1>
     <div class='logo'>
       <a href='/'>Roast Dinners Around The World</a>
     </div>
-    <button id='nav-toggle' aria-label='Toggle Navigation Menu'
+    <button id='nav-toggle' aria-label='Toggle Navigation Menu' aria-expanded='false' aria-controls='nav-menu'
       ><span></span></button
     >
 
@@ -27,16 +27,32 @@ import "./header.css";
     </nav>
   </div>
   <script>
-    document
-      .getElementById("nav-toggle")
-      .addEventListener("click", function () {
-        this.classList.toggle("open");
-        const menu = document.getElementById("nav-menu");
-        if (menu.style.display === "block") {
-          menu.style.display = "none";
-        } else {
-          menu.style.display = "block";
-        }
+    const toggle = document.getElementById("nav-toggle");
+    const menu = document.getElementById("nav-menu");
+    const navLinks = menu.querySelectorAll("a");
+
+    function setMenuLinks(hidden) {
+      navLinks.forEach((link) => {
+        link.setAttribute("tabindex", hidden ? "-1" : "0");
       });
+    }
+
+    // On load, hide links from tab order (menu is closed on mobile)
+    if (window.innerWidth < 1200) {
+      setMenuLinks(true);
+    }
+
+    toggle.addEventListener("click", function () {
+      const isExpanded = this.getAttribute("aria-expanded") === "true";
+      this.setAttribute("aria-expanded", String(!isExpanded));
+      this.classList.toggle("open");
+      if (isExpanded) {
+        menu.style.display = "none";
+        setMenuLinks(true);
+      } else {
+        menu.style.display = "block";
+        setMenuLinks(false);
+      }
+    });
   </script>
 </header>
