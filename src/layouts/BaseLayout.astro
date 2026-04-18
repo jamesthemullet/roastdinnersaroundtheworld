@@ -90,9 +90,10 @@ import { SEO } from "astro-seo";
     </script>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="page-container">
       <Header />
-      <main>
+      <main id="main-content">
         <slot />
       </main>
       <Footer />
