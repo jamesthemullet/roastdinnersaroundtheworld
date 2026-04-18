@@ -14,6 +14,16 @@ type Post = {
   };
 };
 
+const columnLabels: Record<keyof Post["customfields"], string> = {
+  rating: "Rating",
+  convertedPrice: "Price (GBP)",
+  meat: "Meat",
+  country: "Country",
+  yearVisited: "Year Visited",
+  currency: "Currency",
+  price: "Price",
+};
+
 const SortPosts = ({ posts }: { posts: Post[] }) => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [sortColumn, setSortColumn] =
@@ -109,8 +119,8 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
 
   return (
     <div>
-      <div className="toggle-columns">
-        <p>Show/hide columns:</p>
+      <fieldset className="toggle-columns">
+        <legend>Show/hide columns</legend>
         <input
           type="checkbox"
           id="price"
@@ -146,7 +156,7 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
           onChange={handleCheckboxChange(setShowYearVisited)}
         />
         <label htmlFor="yearVisited">Year Visited</label>
-      </div>
+      </fieldset>
 
       <div className="sort-posts">
         <label htmlFor="sort-column">Sort by: </label>
@@ -158,12 +168,14 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
           <option value="yearVisited">Year Visited</option>
         </select>
         <button onClick={toggleSortOrder}>
-          {sortOrder === "asc" ? "Sort Descending" : "Sort Ascending"}
+          Sort {columnLabels[sortColumn]}{" "}
+          {sortOrder === "asc" ? "descending" : "ascending"}
         </button>
       </div>
 
-      <div className="filter-posts">
-        <label htmlFor="meat-filter">Filter by Meat: </label>
+      <fieldset className="filter-posts">
+        <legend>Filter by</legend>
+        <label htmlFor="meat-filter">Meat: </label>
         <select
           id="meat-filter"
           name="meat"
@@ -178,7 +190,7 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
           ))}
         </select>
 
-        <label htmlFor="country-filter">Filter by Country: </label>
+        <label htmlFor="country-filter">Country: </label>
         <select
           id="country-filter"
           name="country"
@@ -193,30 +205,44 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
           ))}
         </select>
 
-        <label htmlFor="score-filter">Filter by Rating (minimum): </label>
+        <label htmlFor="score-filter">Rating (minimum): </label>
         <input
           type="number"
           id="score-filter"
           name="score"
           value={scoreFilter}
           onChange={handleFilterChange}
+          min="0"
+          max="10"
+          step="1"
         />
 
-        <label htmlFor="price-filter">Filter by Price (maximum): </label>
+        <label htmlFor="price-filter">Price in GBP (maximum): </label>
         <input
           type="number"
           id="price-filter"
           name="price"
           value={priceFilter}
           onChange={handleFilterChange}
+          min="0"
+          step="1"
         />
-      </div>
+      </fieldset>
 
       <button className="clear-button" onClick={clearFilters}>
         Clear All Filters
       </button>
 
-      <ol className="grid-container">
+      <ol className="grid-container" role="table" aria-label="Roast dinner reviews">
+        <li className="grid-item grid-header" role="row">
+          <span role="columnheader">Restaurant</span>
+          <span role="columnheader">Rating</span>
+          {showPrice && <span role="columnheader">Price</span>}
+          {showConvertedPrice && <span role="columnheader">Converted Price (GBP)</span>}
+          {showMeat && <span role="columnheader">Meat</span>}
+          {showCountry && <span role="columnheader">Country</span>}
+          {showYearVisited && <span role="columnheader">Year Visited</span>}
+        </li>
         {sortedPosts.map((post) => {
           const {
             rating,
@@ -228,16 +254,23 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
             convertedPrice,
           } = post.customfields;
           return (
-            <li className="grid-item" key={post.slug}>
-              <a href={post.slug} target="_blank" rel="noopener noreferrer">
-                {post.title}
-              </a>
-              <span>{rating}</span>
-              {showPrice && <span>{`${currency}${price}`}</span>}
-              {showConvertedPrice && <span>£{convertedPrice.toFixed(2)}</span>}
-              {showMeat && <span>{meat}</span>}
-              {showCountry && <span>{country}</span>}
-              {showYearVisited && <span>{yearVisited}</span>}
+            <li className="grid-item" key={post.slug} role="row">
+              <span role="cell">
+                <a
+                  href={post.slug}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${post.title} - opens in new tab`}
+                >
+                  {post.title}
+                </a>
+              </span>
+              <span role="cell">{rating}</span>
+              {showPrice && <span role="cell">{`${currency}${price}`}</span>}
+              {showConvertedPrice && <span role="cell">£{convertedPrice.toFixed(2)}</span>}
+              {showMeat && <span role="cell">{meat}</span>}
+              {showCountry && <span role="cell">{country}</span>}
+              {showYearVisited && <span role="cell">{yearVisited}</span>}
             </li>
           );
         })}
