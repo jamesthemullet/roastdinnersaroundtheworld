@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 
 type Post = {
   slug: string;
@@ -18,8 +18,6 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [sortColumn, setSortColumn] =
     useState<keyof Post["customfields"]>("rating");
-  const [sortedPosts, setSortedPosts] = useState([...posts]);
-
   const [meatFilter, setMeatFilter] = useState("");
   const [countryFilter, setCountryFilter] = useState("");
   const [scoreFilter, setScoreFilter] = useState("");
@@ -36,22 +34,8 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
       setter((prev) => !prev);
     };
 
-  const sortedByColumn = (
-    posts: Post[],
-    column: keyof Post["customfields"],
-    order: string
-  ) => {
-    return [...posts].sort((a, b) => {
-      if (a.customfields[column] < b.customfields[column])
-        return order === "asc" ? -1 : 1;
-      if (a.customfields[column] > b.customfields[column])
-        return order === "asc" ? 1 : -1;
-      return 0;
-    });
-  };
-
-  const filterPosts = (posts: Post[]) => {
-    return posts.filter((post) => {
+  const sortedPosts = useMemo(() => {
+    const filtered = posts.filter((post) => {
       const { meat, country, rating, convertedPrice } = post.customfields;
       return (
         (meatFilter ? meat === meatFilter : true) &&
@@ -60,20 +44,14 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
         (priceFilter ? convertedPrice <= Number(priceFilter) : true)
       );
     });
-  };
-
-  useEffect(() => {
-    const filteredPosts = filterPosts(posts);
-    setSortedPosts(sortedByColumn(filteredPosts, sortColumn, sortOrder));
-  }, [
-    sortColumn,
-    sortOrder,
-    posts,
-    meatFilter,
-    countryFilter,
-    scoreFilter,
-    priceFilter,
-  ]);
+    return [...filtered].sort((a, b) => {
+      if (a.customfields[sortColumn] < b.customfields[sortColumn])
+        return sortOrder === "asc" ? -1 : 1;
+      if (a.customfields[sortColumn] > b.customfields[sortColumn])
+        return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+  }, [posts, meatFilter, countryFilter, scoreFilter, priceFilter, sortColumn, sortOrder]);
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newSortColumn = e.target.value as keyof Post["customfields"];
@@ -102,10 +80,14 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
     setPriceFilter("");
   };
 
-  const uniqueMeats = [...new Set(posts.map((post) => post.customfields.meat))];
-  const uniqueCountries = [
-    ...new Set(posts.map((post) => post.customfields.country)),
-  ];
+  const uniqueMeats = useMemo(
+    () => [...new Set(posts.map((post) => post.customfields.meat))],
+    [posts]
+  );
+  const uniqueCountries = useMemo(
+    () => [...new Set(posts.map((post) => post.customfields.country))],
+    [posts]
+  );
 
   return (
     <div>
