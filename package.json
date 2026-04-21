@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "license": "MIT",
   "dependencies": {
-    "@astrojs/partytown": "2.1.6",
+    "@astrojs/partytown": "2.1.7",
     "@astrojs/react": "5.0.3",
     "@fontsource/yellowtail": "^5.0.19",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "accented": "^1.2.0",
-    "astro": "6.1.5",
+    "astro": "6.1.7",
     "astro-seo": "^1.0.0",
     "eslint-plugin-astro": "^1.2.0",
     "eslint-plugin-jsx-a11y": "^6.8.0",
@@ -29,19 +29,28 @@
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json,astro}'",
     "prepare": "husky",
     "lint-staged": "eslint .",
-    "ts-check": "tsc --noEmit"
+    "ts-check": "tsc --noEmit",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@eslint/js": "^9.26.0",
     "@playwright/test": "^1.44.1",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^24.10.0",
+    "@vitejs/plugin-react": "^6.0.1",
     "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.0.0",
     "globals": "^17.0.0",
+    "jsdom": "^29.0.2",
     "knip": "^6.0.0",
     "prettier": "^3.2.5",
     "prettier-plugin-astro": "^0.14.0",
     "typescript": "^6.0.0",
-    "typescript-eslint": "^8.58.0"
+    "typescript-eslint": "^8.58.0",
+    "vite": "^8.0.9",
+    "vitest": "^4.1.4"
   }
 }
