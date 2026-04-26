@@ -60,15 +60,24 @@ header {
 
 #nav-toggle {
   position: relative;
-  width: 30px;
-  height: 20px;
+  width: 44px;
+  height: 44px;
   background: none;
   border: none;
   cursor: pointer;
   margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media (min-width: 1200px) {
     display: none;
+  }
+
+  &:focus-visible {
+    outline: 3px solid white;
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 }
 
@@ -78,7 +87,7 @@ header {
   content: "";
   display: block;
   position: absolute;
-  width: 100%;
+  width: 30px;
   height: 4px;
   background-color: white;
   transition:
@@ -87,7 +96,7 @@ header {
 }
 
 #nav-toggle::before {
-  top: 0;
+  top: 12px;
 }
 
 #nav-toggle span {
@@ -96,7 +105,7 @@ header {
 }
 
 #nav-toggle::after {
-  bottom: 0;
+  bottom: 12px;
 }
 
 #nav-toggle.open::before {
@@ -165,6 +174,15 @@ header {
 
   @media (min-width: 1200px) {
     color: #603d34;
+  }
+}
+
+#nav-menu a:focus-visible {
+  outline: 3px solid #603d34;
+  outline-offset: 2px;
+
+  @media (min-width: 1200px) {
+    outline-color: white;
   }
 }
 
