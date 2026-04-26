@@ -51,6 +51,10 @@ const singleResponse = await fetch(
             featuredImage {
               node {
                 sourceUrl
+                mediaDetails {
+                  height
+                  width
+                }
               }
             }
             customfields {
@@ -95,8 +99,8 @@ const singlePost = data.post;
   <Image
     src={singlePost.featuredImage.node.sourceUrl}
     alt={singlePost.title}
-    width={5000}
-    height={5000}
+    width={singlePost.featuredImage.node.mediaDetails?.width ?? 1200}
+    height={singlePost.featuredImage.node.mediaDetails?.height ?? 900}
     class="featured-image"
     loading="eager"
   />

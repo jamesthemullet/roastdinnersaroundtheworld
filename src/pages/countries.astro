@@ -22,13 +22,6 @@ try {
   description={singlePost.seo.opengraphDescription}
   opengraphImage={singlePost.seo.opengraphImage?.sourceUrl}
 >
-  <!-- <Image
-    src={singlePost.featuredImage?.node.sourceUrl}
-    alt={singlePost.title}
-    width={5000}
-    height={5000}
-    class='featured-image'
-  /> -->
   <div class="container">
     <h2>{singlePost.title}</h2>
     <div set:html={singlePost.content} />
