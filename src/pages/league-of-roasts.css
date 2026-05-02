@@ -170,3 +170,8 @@ input {
 .clear-button {
   margin-left: 16px;
 }
+
+.copy-link-button {
+  margin-left: 8px;
+  margin-bottom: 8px;
+}
