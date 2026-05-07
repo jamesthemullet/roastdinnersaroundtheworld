@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 type Post = {
   slug: string;
@@ -24,20 +24,39 @@ const columnLabels: Record<keyof Post["customfields"], string> = {
   price: "Price",
 };
 
+const getParam = (key: string) => {
+  if (typeof window === "undefined") return "";
+  return new URLSearchParams(window.location.search).get(key) ?? "";
+};
+
 const SortPosts = ({ posts }: { posts: Post[] }) => {
-  const [sortOrder, setSortOrder] = useState("asc");
-  const [sortColumn, setSortColumn] =
-    useState<keyof Post["customfields"]>("rating");
-  const [meatFilter, setMeatFilter] = useState("");
-  const [countryFilter, setCountryFilter] = useState("");
-  const [scoreFilter, setScoreFilter] = useState("");
-  const [priceFilter, setPriceFilter] = useState("");
+  const [sortOrder, setSortOrder] = useState(() => getParam("sortOrder") || "asc");
+  const [sortColumn, setSortColumn] = useState<keyof Post["customfields"]>(
+    () => (getParam("sortColumn") as keyof Post["customfields"]) || "rating"
+  );
+  const [meatFilter, setMeatFilter] = useState(() => getParam("meat"));
+  const [countryFilter, setCountryFilter] = useState(() => getParam("country"));
+  const [scoreFilter, setScoreFilter] = useState(() => getParam("score"));
+  const [priceFilter, setPriceFilter] = useState(() => getParam("price"));
+  const [copySuccess, setCopySuccess] = useState(false);
 
   const [showYearVisited, setShowYearVisited] = useState(true);
   const [showCountry, setShowCountry] = useState(true);
   const [showMeat, setShowMeat] = useState(true);
   const [showPrice, setShowPrice] = useState(true);
   const [showConvertedPrice, setShowConvertedPrice] = useState(true);
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (sortColumn !== "rating") params.set("sortColumn", sortColumn);
+    if (sortOrder !== "asc") params.set("sortOrder", sortOrder);
+    if (meatFilter) params.set("meat", meatFilter);
+    if (countryFilter) params.set("country", countryFilter);
+    if (scoreFilter) params.set("score", scoreFilter);
+    if (priceFilter) params.set("price", priceFilter);
+    const search = params.toString();
+    history.replaceState(null, "", search ? `?${search}` : window.location.pathname);
+  }, [sortColumn, sortOrder, meatFilter, countryFilter, scoreFilter, priceFilter]);
 
   const handleCheckboxChange =
     (setter: React.Dispatch<React.SetStateAction<boolean>>) => () => {
@@ -88,6 +107,12 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
     setCountryFilter("");
     setScoreFilter("");
     setPriceFilter("");
+  };
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 2000);
   };
 
   const uniqueMeats = useMemo(
@@ -213,6 +238,10 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
 
       <button className="clear-button" onClick={clearFilters}>
         Clear All Filters
+      </button>
+
+      <button className="copy-link-button" onClick={copyLink}>
+        {copySuccess ? "Link copied!" : "Copy link"}
       </button>
 
       <ol className="grid-container" role="table" aria-label="Roast dinner reviews">
