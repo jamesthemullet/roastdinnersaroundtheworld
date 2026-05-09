@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import SortPosts from "./sortPosts";
 
 const posts = [
@@ -74,10 +74,7 @@ describe("SortPosts filtering", () => {
 
   it("filters by meat type", async () => {
     render(<SortPosts posts={posts} />);
-    await userEvent.selectOptions(
-      screen.getByRole("combobox", { name: /meat/i }),
-      "Beef"
-    );
+    await userEvent.selectOptions(screen.getByRole("combobox", { name: /meat/i }), "Beef");
     const links = getLinks();
     expect(links).toHaveLength(2);
     expect(links.every((a) => a.textContent?.includes("Beef"))).toBe(true);
@@ -85,10 +82,7 @@ describe("SortPosts filtering", () => {
 
   it("filters by country", async () => {
     render(<SortPosts posts={posts} />);
-    await userEvent.selectOptions(
-      screen.getByRole("combobox", { name: /country/i }),
-      "France"
-    );
+    await userEvent.selectOptions(screen.getByRole("combobox", { name: /country/i }), "France");
     const links = getLinks();
     expect(links).toHaveLength(1);
     expect(links[0]).toHaveTextContent("Lamb Paris");
@@ -96,10 +90,7 @@ describe("SortPosts filtering", () => {
 
   it("filters by minimum rating", async () => {
     render(<SortPosts posts={posts} />);
-    await userEvent.type(
-      screen.getByRole("spinbutton", { name: /minimum/i }),
-      "8"
-    );
+    await userEvent.type(screen.getByRole("spinbutton", { name: /minimum/i }), "8");
     const links = getLinks();
     expect(links).toHaveLength(2);
     const texts = links.map((a) => a.textContent);
@@ -109,10 +100,7 @@ describe("SortPosts filtering", () => {
 
   it("filters by maximum converted price", async () => {
     render(<SortPosts posts={posts} />);
-    await userEvent.type(
-      screen.getByRole("spinbutton", { name: /maximum/i }),
-      "15"
-    );
+    await userEvent.type(screen.getByRole("spinbutton", { name: /maximum/i }), "15");
     const links = getLinks();
     expect(links).toHaveLength(2);
     const texts = links.map((a) => a.textContent);
@@ -122,15 +110,10 @@ describe("SortPosts filtering", () => {
 
   it("clears all filters to restore full list", async () => {
     render(<SortPosts posts={posts} />);
-    await userEvent.selectOptions(
-      screen.getByRole("combobox", { name: /meat/i }),
-      "Beef"
-    );
+    await userEvent.selectOptions(screen.getByRole("combobox", { name: /meat/i }), "Beef");
     expect(getLinks()).toHaveLength(2);
 
-    await userEvent.click(
-      screen.getByRole("button", { name: /clear all filters/i })
-    );
+    await userEvent.click(screen.getByRole("button", { name: /clear all filters/i }));
     expect(getLinks()).toHaveLength(3);
   });
 });
@@ -138,9 +121,7 @@ describe("SortPosts filtering", () => {
 describe("SortPosts sorting", () => {
   it("toggles sort order from ascending to descending", async () => {
     render(<SortPosts posts={posts} />);
-    await userEvent.click(
-      screen.getByRole("button", { name: /descending/i })
-    );
+    await userEvent.click(screen.getByRole("button", { name: /descending/i }));
     const links = getLinks();
     // descending rating: 9 (Beef Edinburgh), 8 (Beef London), 6 (Lamb Paris)
     expect(links[0]).toHaveTextContent("Beef Edinburgh");
@@ -189,10 +170,7 @@ describe("SortPosts URL params", () => {
 
   it("updates URL when a filter changes", async () => {
     render(<SortPosts posts={posts} />);
-    await userEvent.selectOptions(
-      screen.getByRole("combobox", { name: /meat/i }),
-      "Lamb"
-    );
+    await userEvent.selectOptions(screen.getByRole("combobox", { name: /meat/i }), "Lamb");
     await waitFor(() => {
       expect(history.replaceState).toHaveBeenCalledWith(
         null,

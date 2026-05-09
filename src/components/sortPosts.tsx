@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Post = {
   slug: string;
@@ -58,10 +58,9 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
     history.replaceState(null, "", search ? `?${search}` : window.location.pathname);
   }, [sortColumn, sortOrder, meatFilter, countryFilter, scoreFilter, priceFilter]);
 
-  const handleCheckboxChange =
-    (setter: React.Dispatch<React.SetStateAction<boolean>>) => () => {
-      setter((prev) => !prev);
-    };
+  const handleCheckboxChange = (setter: React.Dispatch<React.SetStateAction<boolean>>) => () => {
+    setter((prev) => !prev);
+  };
 
   const sortedPosts = useMemo(() => {
     const filtered = posts.filter((post) => {
@@ -92,9 +91,7 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
     setSortOrder(newSortOrder);
   };
 
-  const handleFilterChange = (
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  ) => {
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "meat") setMeatFilter(value);
     if (name === "country") setCountryFilter(value);
@@ -174,21 +171,15 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
           <option value="country">Country</option>
           <option value="yearVisited">Year Visited</option>
         </select>
-        <button onClick={toggleSortOrder}>
-          Sort {columnLabels[sortColumn]}{" "}
-          {sortOrder === "asc" ? "descending" : "ascending"}
+        <button type="button" onClick={toggleSortOrder}>
+          Sort {columnLabels[sortColumn]} {sortOrder === "asc" ? "descending" : "ascending"}
         </button>
       </div>
 
       <fieldset className="filter-posts">
         <legend>Filter by</legend>
         <label htmlFor="meat-filter">Meat: </label>
-        <select
-          id="meat-filter"
-          name="meat"
-          value={meatFilter}
-          onChange={handleFilterChange}
-        >
+        <select id="meat-filter" name="meat" value={meatFilter} onChange={handleFilterChange}>
           <option value="">All</option>
           {uniqueMeats.map((meat: string) => (
             <option key={meat} value={meat}>
@@ -236,56 +227,53 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
         />
       </fieldset>
 
-      <button className="clear-button" onClick={clearFilters}>
+      <button type="button" className="clear-button" onClick={clearFilters}>
         Clear All Filters
       </button>
 
-      <button className="copy-link-button" onClick={copyLink}>
+      <button type="button" className="copy-link-button" onClick={copyLink}>
         {copySuccess ? "Link copied!" : "Copy link"}
       </button>
 
-      <ol className="grid-container" role="table" aria-label="Roast dinner reviews">
-        <li className="grid-item grid-header" role="row">
-          <span role="columnheader">Restaurant</span>
-          <span role="columnheader">Rating</span>
-          {showPrice && <span role="columnheader">Price</span>}
-          {showConvertedPrice && <span role="columnheader">Converted Price (GBP)</span>}
-          {showMeat && <span role="columnheader">Meat</span>}
-          {showCountry && <span role="columnheader">Country</span>}
-          {showYearVisited && <span role="columnheader">Year Visited</span>}
-        </li>
-        {sortedPosts.map((post) => {
-          const {
-            rating,
-            currency,
-            price,
-            meat,
-            country,
-            yearVisited,
-            convertedPrice,
-          } = post.customfields;
-          return (
-            <li className="grid-item" key={post.slug} role="row">
-              <span role="cell">
-                <a
-                  href={post.slug}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${post.title} - opens in new tab`}
-                >
-                  {post.title}
-                </a>
-              </span>
-              <span role="cell">{rating}</span>
-              {showPrice && <span role="cell">{`${currency}${price}`}</span>}
-              {showConvertedPrice && <span role="cell">£{convertedPrice.toFixed(2)}</span>}
-              {showMeat && <span role="cell">{meat}</span>}
-              {showCountry && <span role="cell">{country}</span>}
-              {showYearVisited && <span role="cell">{yearVisited}</span>}
-            </li>
-          );
-        })}
-      </ol>
+      <table className="grid-container" aria-label="Roast dinner reviews">
+        <thead>
+          <tr className="grid-item grid-header">
+            <th>Restaurant</th>
+            <th>Rating</th>
+            {showPrice && <th>Price</th>}
+            {showConvertedPrice && <th>Converted Price (GBP)</th>}
+            {showMeat && <th>Meat</th>}
+            {showCountry && <th>Country</th>}
+            {showYearVisited && <th>Year Visited</th>}
+          </tr>
+        </thead>
+        <tbody>
+          {sortedPosts.map((post) => {
+            const { rating, currency, price, meat, country, yearVisited, convertedPrice } =
+              post.customfields;
+            return (
+              <tr className="grid-item" key={post.slug}>
+                <td>
+                  <a
+                    href={post.slug}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${post.title} - opens in new tab`}
+                  >
+                    {post.title}
+                  </a>
+                </td>
+                <td>{rating}</td>
+                {showPrice && <td>{`${currency}${price}`}</td>}
+                {showConvertedPrice && <td>£{convertedPrice.toFixed(2)}</td>}
+                {showMeat && <td>{meat}</td>}
+                {showCountry && <td>{country}</td>}
+                {showYearVisited && <td>{yearVisited}</td>}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };
