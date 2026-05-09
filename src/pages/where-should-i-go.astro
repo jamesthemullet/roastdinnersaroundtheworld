@@ -5,7 +5,7 @@ import SINGLE_POST_QUERY from "../lib/graphql/queries/singlePost";
 import "./pages.css";
 
 const variables = { id: "40" };
-let singlePost;
+let singlePost: unknown;
 
 try {
   const { page } = await fetchGraphQL(SINGLE_POST_QUERY, variables);

@@ -2,11 +2,11 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "./pages.css";
 
-import SINGLE_POST_QUERY from "../lib/graphql/queries/singlePost";
 import { fetchGraphQL } from "../lib/api";
+import SINGLE_POST_QUERY from "../lib/graphql/queries/singlePost";
 
 const variables = { id: "272" };
-let singlePost;
+let singlePost: unknown;
 
 try {
   const { page } = await fetchGraphQL(SINGLE_POST_QUERY, variables);

@@ -1,12 +1,9 @@
 export async function fetchGraphQL(query: string, variables: Record<string, unknown> = {}) {
-  const response = await fetch(
-    "https://blog.roastdinnersaroundtheworld.com/graphql",
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query, variables }),
-    },
-  );
+  const response = await fetch("https://blog.roastdinnersaroundtheworld.com/graphql", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query, variables }),
+  });
 
   const json = await response.json();
 
