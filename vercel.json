@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {
+      "source": "/wp-images/:path*",
+      "destination": "https://blog.roastdinnersaroundtheworld.com/wp-content/uploads/:path*"
+    }
+  ],
   "headers": [
     {
       "source": "/favicon/(.*)",
