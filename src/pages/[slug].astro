@@ -83,12 +83,22 @@ const singleResponse = await fetch("https://blog.roastdinnersaroundtheworld.com/
 const { data } = await singleResponse.json();
 
 const singlePost = data.post;
+
+const toProxiedUrl = (url: string | undefined) =>
+  url?.replace(
+    "https://blog.roastdinnersaroundtheworld.com/wp-content/uploads/",
+    "https://www.roastdinnersaroundtheworld.com/wp-images/"
+  );
+
+const ogImage = toProxiedUrl(
+  singlePost.seo.opengraphImage?.sourceUrl || singlePost.featuredImage?.node?.sourceUrl
+);
 ---
 
 <BaseLayout
   pageTitle={singlePost.title}
   description={singlePost.seo.opengraphDescription}
-  opengraphImage={singlePost.seo.opengraphImage.sourceUrl}
+  opengraphImage={ogImage}
 >
   <Image
     src={singlePost.featuredImage.node.sourceUrl}

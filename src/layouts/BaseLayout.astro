@@ -8,6 +8,8 @@ import "@fontsource/yellowtail";
 import yellowtailWoff2 from "@fontsource/yellowtail/files/yellowtail-latin-400-normal.woff2?url";
 import { SEO } from "astro-seo";
 import logo3 from "../images/logos/rdaw-logo-3.webp";
+
+const siteLogoUrl = Astro.site ? new URL(logo3.src, Astro.site).toString() : logo3.src;
 ---
 
 <html lang="en">
@@ -53,7 +55,7 @@ import logo3 from "../images/logos/rdaw-logo-3.webp";
         basic: {
           title: pageTitle || "Roast Dinners Around The World",
           type: "Article",
-          image: opengraphImage || logo3,
+          image: opengraphImage || siteLogoUrl,
         },
         optional: {
           description:
