@@ -64,3 +64,4 @@ dist/
 .astro/settings.json
 .astro/settings.json
 .astro/settings.json
+/coverage

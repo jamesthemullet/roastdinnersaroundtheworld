@@ -142,6 +142,29 @@ describe("SortPosts sorting", () => {
   });
 });
 
+describe("SortPosts column visibility", () => {
+  it("hides the Meat column when the Meat checkbox is unchecked", async () => {
+    render(<SortPosts posts={posts} />);
+    expect(screen.getByRole("columnheader", { name: "Meat" })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("checkbox", { name: /meat/i }));
+    expect(screen.queryByRole("columnheader", { name: "Meat" })).not.toBeInTheDocument();
+  });
+
+  it("restores the Meat column when the checkbox is re-checked", async () => {
+    render(<SortPosts posts={posts} />);
+    await userEvent.click(screen.getByRole("checkbox", { name: /meat/i }));
+    await userEvent.click(screen.getByRole("checkbox", { name: /meat/i }));
+    expect(screen.getByRole("columnheader", { name: "Meat" })).toBeInTheDocument();
+  });
+
+  it("hides the Country column when the Country checkbox is unchecked", async () => {
+    render(<SortPosts posts={posts} />);
+    expect(screen.getByRole("columnheader", { name: "Country" })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("checkbox", { name: /country/i }));
+    expect(screen.queryByRole("columnheader", { name: "Country" })).not.toBeInTheDocument();
+  });
+});
+
 describe("SortPosts URL params", () => {
   it("seeds meat filter from URL param on mount", () => {
     window.location.search = "?meat=Beef";

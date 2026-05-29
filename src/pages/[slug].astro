@@ -2,87 +2,17 @@
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "./post.css";
+import { fetchGraphQL } from "../lib/api";
+import ALL_SLUGS_QUERY from "../lib/graphql/queries/allSlugs";
+import POST_BY_SLUG_QUERY from "../lib/graphql/queries/postBySlug";
 
 export async function getStaticPaths() {
-  const response = await fetch("https://blog.roastdinnersaroundtheworld.com/graphql", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: `
-        query AllSlugs {
-          posts {
-            nodes {
-              slug
-            }
-          }
-        }
-        `,
-    }),
-  });
-
-  const { data } = await response.json();
-
-  const posts = data.posts.nodes;
-
-  const paths = posts.map((post) => {
-    return { params: post };
-  });
-
-  return paths;
+  const { posts } = await fetchGraphQL(ALL_SLUGS_QUERY);
+  return posts.nodes.map((post) => ({ params: post }));
 }
 
 const { slug } = Astro.params;
-
-const singleResponse = await fetch("https://blog.roastdinnersaroundtheworld.com/graphql", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    query: `
-        query SinglePost($id: ID!) {
-          post(idType: SLUG, id: $id) {
-            date
-            content
-            title
-            featuredImage {
-              node {
-                sourceUrl
-                mediaDetails {
-                  height
-                  width
-                }
-              }
-            }
-            customfields {
-              country
-              rating
-            }
-            seo {
-              opengraphTitle
-              opengraphDescription
-              opengraphSiteName
-              opengraphImage {
-                uri
-                altText
-                mediaDetails {
-                  file
-                  height
-                  width
-                }
-                mediaItemUrl
-                sourceUrl
-                srcSet
-              }
-            }
-          }
-        }
-        `,
-    variables: { id: slug },
-  }),
-});
-
-const { data } = await singleResponse.json();
-
-const singlePost = data.post;
+const { post: singlePost } = await fetchGraphQL(POST_BY_SLUG_QUERY, { id: slug });
 
 const toProxiedUrl = (url: string | undefined) =>
   url?.replace(

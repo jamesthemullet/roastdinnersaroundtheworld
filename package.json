@@ -26,7 +26,8 @@
     "format": "biome format --write .",
     "prepare": "husky",
     "ts-check": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx,astro,css,json}": [
@@ -42,6 +43,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/node": "^24.10.0",
     "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/coverage-v8": "^4.1.7",
     "jsdom": "^29.0.2",
     "knip": "^6.0.0",
     "typescript": "^6.0.0",
