@@ -7,6 +7,7 @@ import SortPosts from "../components/sortPosts";
 import { fetchGraphQL } from "../lib/api.js";
 import ALL_POSTS_QUERY from "../lib/graphql/queries/allPosts";
 import SINGLE_POST_QUERY from "../lib/graphql/queries/singlePost";
+import { PAGE_IDS } from "../lib/pageIds";
 
 try {
   const wpResponse = await fetch("https://blog.roastdinnersaroundtheworld.com/wp-json/wp/v2/posts");
@@ -70,7 +71,7 @@ const fetchPostsAndCurrency = async () => {
 
 const posts = await fetchPostsAndCurrency();
 
-const variables = { id: "205" };
+const variables = { id: PAGE_IDS.LEAGUE_OF_ROASTS };
 let singlePost: unknown;
 
 try {

@@ -4,8 +4,9 @@ import "./pages.css";
 
 import { fetchGraphQL } from "../lib/api";
 import SINGLE_POST_QUERY from "../lib/graphql/queries/singlePost";
+import { PAGE_IDS } from "../lib/pageIds";
 
-const variables = { id: "272" };
+const variables = { id: PAGE_IDS.COUNTRIES };
 let singlePost: unknown;
 
 try {

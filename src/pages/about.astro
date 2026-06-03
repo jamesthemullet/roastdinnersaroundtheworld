@@ -4,8 +4,9 @@ import "./pages.css";
 import { Image } from "astro:assets";
 import { fetchGraphQL } from "../lib/api";
 import SINGLE_POST_QUERY from "../lib/graphql/queries/singlePost";
+import { PAGE_IDS } from "../lib/pageIds";
 
-const variables = { id: "306" };
+const variables = { id: PAGE_IDS.ABOUT };
 let singlePost: unknown;
 
 try {
