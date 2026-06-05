@@ -234,6 +234,9 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
       <button type="button" className="copy-link-button" onClick={copyLink}>
         {copySuccess ? "Link copied!" : "Copy link"}
       </button>
+      <div role="status" aria-live="polite" className="visually-hidden">
+        {copySuccess ? "Link copied!" : ""}
+      </div>
 
       <table className="grid-container" aria-label="Roast dinner reviews">
         <thead>
