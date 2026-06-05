@@ -3,8 +3,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { fetchGraphQL } from "../lib/api";
 import SINGLE_POST_QUERY from "../lib/graphql/queries/singlePost";
 import "./pages.css";
+import { PAGE_IDS } from "../lib/pageIds";
 
-const variables = { id: "54" };
+const variables = { id: PAGE_IDS.TO_DO_LIST };
 let singlePost: unknown;
 
 try {
