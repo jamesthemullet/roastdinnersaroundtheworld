@@ -44,9 +44,19 @@ Then add a vitest config if none exists. Unit test files live alongside source i
 
 **For e2e tests**, use the existing Playwright setup. New test files go in `tests/`. Use `page.goto('/')` style navigation. The dev server runs on `http://localhost:4321`.
 
-## Step 5 — Report back
+## Step 5 — Commit and open a PR
+
+Once the test is written and passing:
+
+1. Create a new branch named `tests/<short-description>` (e.g. `tests/url-param-seeding`).
+2. Stage only the changed test file(s) and commit with a concise message describing the coverage added.
+3. Push the branch and open a PR against `main` using `gh pr create`. PR title should be short (under 70 chars). Body should include what behaviour the test covers and what regression it would catch.
+4. Return the PR URL.
+
+## Step 6 — Report back
 
 Summarise:
 - What you chose (unit vs e2e) and why
 - What specific behaviour the new test covers
 - What regression it would catch
+- The PR URL
