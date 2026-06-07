@@ -75,7 +75,11 @@ try {
 }
 ---
 
-<BaseLayout pageTitle="League Of Roasts Around The World">
+<BaseLayout
+  pageTitle="League Of Roasts Around The World"
+  description={singlePost.seo.opengraphDescription}
+  opengraphImage={singlePost.seo.opengraphImage?.sourceUrl}
+>
   <Image
     src={singlePost.featuredImage?.node.sourceUrl}
     alt={singlePost.title}
