@@ -27,7 +27,8 @@
     "prepare": "husky",
     "ts-check": "tsc --noEmit",
     "test": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "knip": "knip"
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx,astro,css,json}": [
