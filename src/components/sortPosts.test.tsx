@@ -246,4 +246,13 @@ describe("SortPosts URL params", () => {
     await userEvent.click(screen.getByRole("button", { name: /copy link/i }));
     expect(screen.getByRole("button", { name: /link copied/i })).toBeInTheDocument();
   });
+
+  it("announces copy confirmation in a status live region", async () => {
+    Object.assign(navigator, {
+      clipboard: { writeText: vi.fn().mockResolvedValue(undefined) },
+    });
+    render(<SortPosts posts={posts} />);
+    await userEvent.click(screen.getByRole("button", { name: /copy link/i }));
+    expect(screen.getByRole("status")).toHaveTextContent("Link copied!");
+  });
 });
