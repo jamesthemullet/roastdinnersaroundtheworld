@@ -32,7 +32,16 @@ Read the relevant source files in `src/components/`, `src/layouts/`, `src/lib/`,
 
 Make the fix. Keep scope tight — one issue, one or two files. Do not refactor beyond what is needed to address the specific finding.
 
-### Step 4 — Report
+### Step 4 — Commit and open a PR
+
+Once the fix is made:
+
+1. Create a new branch named `quality/<short-description>` (e.g. `quality/fix-og-props`).
+2. Stage only the changed file(s) and commit with a concise message describing the improvement.
+3. Push the branch and open a PR against `main` using `gh pr create`. Title under 70 chars. Body should include the category, what was fixed, and why it matters.
+4. Return the PR URL.
+
+### Step 5 — Report
 
 Output exactly this structure:
 
@@ -43,6 +52,7 @@ Output exactly this structure:
 **File:** <path:line>
 **Issue:** <one sentence describing the problem>
 **Fix:** <what was changed and why>
+**PR:** <URL>
 **Next suggestion:** <the next candidate worth tackling in this category, with file path>
 ```
 

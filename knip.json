@@ -5,7 +5,6 @@
     "type": true
   },
   "ignoreBinaries": ["wait-on", "axe"],
-  "ignoreDependencies": ["lint-staged", "prettier-config-standard"],
   "ignore": [".astro/**", ".github/lighthouse/lighthouse.config.js"],
   "tags": ["-lintignore"],
   "prettier": {

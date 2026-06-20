@@ -182,6 +182,26 @@ describe("SortPosts URL params", () => {
     expect(links[0]).toHaveTextContent("Lamb Paris");
   });
 
+  it("seeds score filter from URL param on mount", () => {
+    window.location.search = "?score=8";
+    render(<SortPosts posts={posts} />);
+    const links = getLinks();
+    expect(links).toHaveLength(2);
+    const texts = links.map((a) => a.textContent);
+    expect(texts).toContain("Beef London");
+    expect(texts).toContain("Beef Edinburgh");
+  });
+
+  it("seeds price filter from URL param on mount", () => {
+    window.location.search = "?price=15";
+    render(<SortPosts posts={posts} />);
+    const links = getLinks();
+    expect(links).toHaveLength(2);
+    const texts = links.map((a) => a.textContent);
+    expect(texts).toContain("Beef London");
+    expect(texts).toContain("Beef Edinburgh");
+  });
+
   it("seeds sort column and order from URL params on mount", () => {
     window.location.search = "?sortColumn=convertedPrice&sortOrder=desc";
     render(<SortPosts posts={posts} />);
@@ -225,5 +245,14 @@ describe("SortPosts URL params", () => {
     render(<SortPosts posts={posts} />);
     await userEvent.click(screen.getByRole("button", { name: /copy link/i }));
     expect(screen.getByRole("button", { name: /link copied/i })).toBeInTheDocument();
+  });
+
+  it("announces copy confirmation in a status live region", async () => {
+    Object.assign(navigator, {
+      clipboard: { writeText: vi.fn().mockResolvedValue(undefined) },
+    });
+    render(<SortPosts posts={posts} />);
+    await userEvent.click(screen.getByRole("button", { name: /copy link/i }));
+    expect(screen.getByRole("status")).toHaveTextContent("Link copied!");
   });
 });

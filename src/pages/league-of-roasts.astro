@@ -61,21 +61,22 @@ const fetchPostsAndCurrency = async () => {
   }
 };
 
-const posts = await fetchPostsAndCurrency();
+const [posts, singlePostResult] = await Promise.all([
+  fetchPostsAndCurrency(),
+  fetchGraphQL(SINGLE_POST_QUERY, { id: PAGE_IDS.LEAGUE_OF_ROASTS }).catch((error) => {
+    console.error("Error fetching GraphQL data:", error);
+    throw error;
+  }),
+]);
 
-const variables = { id: PAGE_IDS.LEAGUE_OF_ROASTS };
-let singlePost: unknown;
-
-try {
-  const { page } = await fetchGraphQL(SINGLE_POST_QUERY, variables);
-  singlePost = page;
-} catch (error) {
-  console.error("Error fetching GraphQL data:", error);
-  throw error;
-}
+const singlePost = singlePostResult?.page;
 ---
 
-<BaseLayout pageTitle="League Of Roasts Around The World">
+<BaseLayout
+  pageTitle="League Of Roasts Around The World"
+  description={singlePost.seo.opengraphDescription}
+  opengraphImage={singlePost.seo.opengraphImage?.sourceUrl}
+>
   <Image
     src={singlePost.featuredImage?.node.sourceUrl}
     alt={singlePost.title}
