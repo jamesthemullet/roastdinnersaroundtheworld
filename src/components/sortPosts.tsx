@@ -238,6 +238,10 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
         {copySuccess ? "Link copied!" : ""}
       </div>
 
+      <div role="status" aria-live="polite" aria-atomic="true" className="visually-hidden">
+        {`Showing ${sortedPosts.length} of ${posts.length} results`}
+      </div>
+
       <table className="grid-container" aria-label="Roast dinner reviews">
         <thead>
           <tr className="grid-item grid-header">

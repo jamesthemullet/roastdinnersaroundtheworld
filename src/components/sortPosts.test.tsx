@@ -253,6 +253,8 @@ describe("SortPosts URL params", () => {
     });
     render(<SortPosts posts={posts} />);
     await userEvent.click(screen.getByRole("button", { name: /copy link/i }));
-    expect(screen.getByRole("status")).toHaveTextContent("Link copied!");
+    const statusRegions = screen.getAllByRole("status");
+    const copyStatus = statusRegions.find((el) => el.textContent === "Link copied!");
+    expect(copyStatus).toBeTruthy();
   });
 });
