@@ -61,7 +61,5 @@ wp-config.php
 # Ignore build output
 dist/
 .claude/settings.local.json
-.astro/settings.json
-.astro/settings.json
-.astro/settings.json
+.astro/
 /coverage
