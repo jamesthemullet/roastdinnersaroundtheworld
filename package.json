@@ -9,7 +9,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "accented": "^1.2.0",
-    "astro": "7.0.2",
+    "astro": "7.0.3",
     "astro-seo": "^1.0.0",
     "react": "19",
     "react-dom": "19"
