@@ -77,13 +77,17 @@ const singlePost = singlePostResult?.page;
   description={singlePost.seo.opengraphDescription}
   opengraphImage={singlePost.seo.opengraphImage?.sourceUrl}
 >
-  <Image
-    src={singlePost.featuredImage?.node.sourceUrl}
-    alt={singlePost.title}
-    width={2000}
-    height={2000}
-    class="featured-image"
-  />
+  {
+    singlePost.featuredImage?.node.sourceUrl && (
+      <Image
+        src={singlePost.featuredImage.node.sourceUrl}
+        alt={singlePost.title}
+        width={2000}
+        height={2000}
+        class="featured-image"
+      />
+    )
+  }
   <div class="container">
     <h2>League Of Roasts:</h2>
     <SortPosts posts={posts} client:only="react" />
