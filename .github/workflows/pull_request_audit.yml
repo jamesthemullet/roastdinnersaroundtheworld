@@ -5,6 +5,7 @@ on:
 jobs:
   axe:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       GITHUB_API_SECRET: ${{ secrets.PIPELINE_GITHUB_API_SECRET }}
     steps:
@@ -30,7 +31,7 @@ jobs:
           yarn add chromedriver@$CHROMIUM_VERSION
           echo "chromedriver version: $(chromedriver --version)"
       - run: yarn run build
-      - run: yarn dev & npx wait-on http://localhost:3000
+      - run: yarn dev & npx wait-on --timeout 60000 http://localhost:3000
       - name: Run axe
         run: |
           yarn add @axe-core/cli
