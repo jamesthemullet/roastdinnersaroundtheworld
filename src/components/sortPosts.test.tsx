@@ -140,6 +140,17 @@ describe("SortPosts sorting", () => {
     expect(links[1]).toHaveTextContent("Beef Edinburgh");
     expect(links[2]).toHaveTextContent("Lamb Paris");
   });
+
+  it("preserves original relative order for posts with equal sort values", async () => {
+    render(<SortPosts posts={posts} />);
+    await userEvent.selectOptions(screen.getByRole("combobox", { name: /sort by/i }), "meat");
+    const links = getLinks();
+    // "Beef London" and "Beef Edinburgh" share meat "Beef" and are equal under the comparator
+    // (the `return 0` branch); a stable sort keeps their original relative order.
+    expect(links[0]).toHaveTextContent("Beef London");
+    expect(links[1]).toHaveTextContent("Beef Edinburgh");
+    expect(links[2]).toHaveTextContent("Lamb Paris");
+  });
 });
 
 describe("SortPosts column visibility", () => {
