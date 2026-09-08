@@ -43,7 +43,12 @@ const fetchPostsAndCurrency = async () => {
 
     const postsWithConvertedPrices = posts.map((post) => {
       const { currency, price } = post.customfields || {};
-      const convertedPrice = currencyRates?.[currency] ? price / currencyRates[currency] : price;
+      const convertedPrice =
+        typeof price === "number"
+          ? currencyRates?.[currency]
+            ? price / currencyRates[currency]
+            : price
+          : null;
 
       return {
         ...post,
