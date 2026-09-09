@@ -273,7 +273,9 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
                 <td>{rating}</td>
                 {showPrice && <td>{`${currency}${price}`}</td>}
                 {showConvertedPrice && (
-                  <td>{typeof convertedPrice === "number" ? `£${convertedPrice.toFixed(2)}` : "N/A"}</td>
+                  <td>
+                    {typeof convertedPrice === "number" ? `£${convertedPrice.toFixed(2)}` : "N/A"}
+                  </td>
                 )}
                 {showMeat && <td>{meat}</td>}
                 {showCountry && <td>{country}</td>}
