@@ -17,7 +17,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 - [ ] Add a Playwright spec for `SortPosts` filter behaviour — set the meat filter / minimum-rating filter and assert the `role="status"` "Showing N of M results" live region (`src/components/sortPosts.tsx:242`) updates correctly, and "Clear All Filters" restores the count. No current e2e coverage. (found: 2026-09-02)
 - [ ] Add a Playwright spec for the `SortPosts` "Copy link" button — click it, grant clipboard permissions in the Playwright context, read `navigator.clipboard.readText()` and assert it equals `page.url()`, and assert the button label flips to "Link copied!" (`sortPosts.tsx:235`) and reverts. No current e2e coverage. (found: 2026-09-02)
 - [ ] Add a Playwright spec asserting currency conversion on `/league-of-roasts` — assert the "Price (GBP)" column renders `£`-prefixed, `.toFixed(2)`-formatted values (`sortPosts.tsx:275`), proving the build-time `exchangerate-api.com` fetch (`league-of-roasts.astro:16`) actually reaches the client. No current coverage — a broken currency fetch would ship silently today. (found: 2026-09-02)
-- [ ] Add `tests/404.spec.ts` — navigate to an unknown slug (e.g. `/this-does-not-exist`) and assert `src/pages/404.astro` content renders with a 404 response status. No current coverage. (found: 2026-09-02)
+- [x] Add `tests/404.spec.ts` — navigate to an unknown slug (e.g. `/this-does-not-exist`) and assert `src/pages/404.astro` content renders with a 404 response status. No current coverage. (found: 2026-09-02) (fixed: 2026-09-04)
 
 ## 2. Accessibility
 
