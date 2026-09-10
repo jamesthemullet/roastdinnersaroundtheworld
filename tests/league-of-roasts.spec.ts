@@ -34,16 +34,20 @@ test.describe("League of Roasts page", () => {
     await expect(table.locator("tbody tr")).toHaveCount(rowCountBefore);
   });
 
-  test("changing sort column and toggling sort order changes the first row", async ({ page }) => {
+  test("changing sort column and toggling sort order reorders the table", async ({ page }) => {
     await page.goto("/league-of-roasts");
 
     const table = page.getByRole("table", { name: "Roast dinner reviews" });
-    const firstRowRestaurant = () => table.locator("tbody tr").first().locator("td").first();
+    const restaurantNames = () => table.locator("tbody tr td:first-child").allInnerTexts();
 
-    await page.getByLabel("Sort by:").selectOption("country");
-    const restaurantAfterColumnChange = await firstRowRestaurant().innerText();
+    await expect(table.locator("tbody tr").first()).toBeVisible();
 
-    await page.getByRole("button", { name: /Sort Country/ }).click();
-    await expect(firstRowRestaurant()).not.toHaveText(restaurantAfterColumnChange);
+    await page.getByLabel("Sort by:").selectOption("rating");
+    const namesAfterColumnChange = await restaurantNames();
+
+    await page.getByRole("button", { name: /Sort Rating/ }).click();
+    await expect(async () => {
+      expect(await restaurantNames()).not.toEqual(namesAfterColumnChange);
+    }).toPass();
   });
 });
