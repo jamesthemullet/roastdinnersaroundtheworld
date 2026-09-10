@@ -33,4 +33,17 @@ test.describe("League of Roasts page", () => {
     await page.getByRole("button", { name: "Clear All Filters" }).click();
     await expect(table.locator("tbody tr")).toHaveCount(rowCountBefore);
   });
+
+  test("changing sort column and toggling sort order changes the first row", async ({ page }) => {
+    await page.goto("/league-of-roasts");
+
+    const table = page.getByRole("table", { name: "Roast dinner reviews" });
+    const firstRowRestaurant = () => table.locator("tbody tr").first().locator("td").first();
+
+    await page.getByLabel("Sort by:").selectOption("country");
+    const restaurantAfterColumnChange = await firstRowRestaurant().innerText();
+
+    await page.getByRole("button", { name: /Sort Country/ }).click();
+    await expect(firstRowRestaurant()).not.toHaveText(restaurantAfterColumnChange);
+  });
 });
