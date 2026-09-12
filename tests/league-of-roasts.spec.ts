@@ -33,4 +33,27 @@ test.describe("League of Roasts page", () => {
     await page.getByRole("button", { name: "Clear All Filters" }).click();
     await expect(table.locator("tbody tr")).toHaveCount(rowCountBefore);
   });
+
+  test("results status live region reflects filtered and cleared row counts", async ({
+    page,
+  }) => {
+    await page.goto("/league-of-roasts");
+
+    const table = page.getByRole("table", { name: "Roast dinner reviews" });
+    await expect(table.locator("tbody tr").first()).toBeVisible();
+
+    const totalRows = await table.locator("tbody tr").count();
+    const resultsStatus = page
+      .getByRole("status")
+      .filter({ hasText: /Showing \d+ of \d+ results/ });
+    await expect(resultsStatus).toHaveText(`Showing ${totalRows} of ${totalRows} results`);
+
+    await page.getByLabel("Rating (minimum): ").fill("10000");
+    await expect(table.locator("tbody tr")).toHaveCount(0);
+    await expect(resultsStatus).toHaveText(`Showing 0 of ${totalRows} results`);
+
+    await page.getByRole("button", { name: "Clear All Filters" }).click();
+    await expect(table.locator("tbody tr")).toHaveCount(totalRows);
+    await expect(resultsStatus).toHaveText(`Showing ${totalRows} of ${totalRows} results`);
+  });
 });
