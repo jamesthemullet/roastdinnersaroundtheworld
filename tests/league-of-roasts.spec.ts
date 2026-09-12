@@ -49,7 +49,8 @@ test.describe("League of Roasts page", () => {
     await expect(async () => {
       expect(await restaurantNames()).not.toEqual(namesAfterColumnChange);
     }).toPass();
-    
+  });
+
   test("results status live region reflects filtered and cleared row counts", async ({
     page,
   }) => {
