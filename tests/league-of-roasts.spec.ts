@@ -1,0 +1,76 @@
+import { test, expect } from "@playwright/test";
+
+test.describe("League of Roasts page", () => {
+  test("renders the page, heading and roast table without a broken response", async ({
+    page,
+  }) => {
+    const response = await page.goto("/league-of-roasts");
+
+    expect(response?.status()).toBe(200);
+
+    await expect(page).toHaveTitle("League Of Roasts Around The World");
+    await expect(page.getByRole("heading", { name: "League Of Roasts:", level: 2 })).toBeVisible();
+
+    const table = page.getByRole("table", { name: "Roast dinner reviews" });
+    await expect(table).toBeVisible();
+    await expect(table.getByRole("columnheader", { name: "Restaurant" })).toBeVisible();
+    await expect(table.locator("tbody tr").first()).toBeVisible();
+  });
+
+  test("sorting and filtering controls are interactive", async ({ page }) => {
+    await page.goto("/league-of-roasts");
+
+    const table = page.getByRole("table", { name: "Roast dinner reviews" });
+    await expect(table.locator("tbody tr").first()).toBeVisible();
+
+    await page.getByLabel("Sort by:").selectOption("country");
+    await expect(page.getByRole("button", { name: /Sort Country/ })).toBeVisible();
+
+    const rowCountBefore = await table.locator("tbody tr").count();
+    await page.getByLabel("Rating (minimum): ").fill("10000");
+    await expect(table.locator("tbody tr")).toHaveCount(0);
+
+    await page.getByRole("button", { name: "Clear All Filters" }).click();
+    await expect(table.locator("tbody tr")).toHaveCount(rowCountBefore);
+  });
+
+  test("changing sort column and toggling sort order reorders the table", async ({ page }) => {
+    await page.goto("/league-of-roasts");
+
+    const table = page.getByRole("table", { name: "Roast dinner reviews" });
+    const restaurantNames = () => table.locator("tbody tr td:first-child").allInnerTexts();
+
+    await expect(table.locator("tbody tr").first()).toBeVisible();
+
+    await page.getByLabel("Sort by:").selectOption("rating");
+    const namesAfterColumnChange = await restaurantNames();
+
+    await page.getByRole("button", { name: /Sort Rating/ }).click();
+    await expect(async () => {
+      expect(await restaurantNames()).not.toEqual(namesAfterColumnChange);
+    }).toPass();
+  });
+
+  test("results status live region reflects filtered and cleared row counts", async ({
+    page,
+  }) => {
+    await page.goto("/league-of-roasts");
+
+    const table = page.getByRole("table", { name: "Roast dinner reviews" });
+    await expect(table.locator("tbody tr").first()).toBeVisible();
+
+    const totalRows = await table.locator("tbody tr").count();
+    const resultsStatus = page
+      .getByRole("status")
+      .filter({ hasText: /Showing \d+ of \d+ results/ });
+    await expect(resultsStatus).toHaveText(`Showing ${totalRows} of ${totalRows} results`);
+
+    await page.getByLabel("Rating (minimum): ").fill("10000");
+    await expect(table.locator("tbody tr")).toHaveCount(0);
+    await expect(resultsStatus).toHaveText(`Showing 0 of ${totalRows} results`);
+
+    await page.getByRole("button", { name: "Clear All Filters" }).click();
+    await expect(table.locator("tbody tr")).toHaveCount(totalRows);
+    await expect(resultsStatus).toHaveText(`Showing ${totalRows} of ${totalRows} results`);
+  });
+});

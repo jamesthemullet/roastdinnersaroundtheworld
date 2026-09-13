@@ -13,8 +13,18 @@ jobs:
         node-version: lts/*
     - name: Install dependencies
       run: npm install -g yarn && yarn
-    - name: Install Playwright Browsers
+    - name: Cache Playwright browsers
+      uses: actions/cache@v6
+      id: playwright-cache
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+    - name: Install Playwright browsers
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
       run: yarn playwright install chromium --with-deps
+    - name: Install Playwright OS dependencies
+      if: steps.playwright-cache.outputs.cache-hit == 'true'
+      run: yarn playwright install-deps chromium
     - name: Run Playwright tests
       run: yarn playwright test
     - uses: actions/upload-artifact@v7
