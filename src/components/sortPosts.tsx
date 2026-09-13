@@ -10,7 +10,7 @@ type Post = {
     meat: string;
     country: string;
     yearVisited: number | string;
-    convertedPrice: number;
+    convertedPrice: number | null;
   };
 };
 
@@ -272,7 +272,11 @@ const SortPosts = ({ posts }: { posts: Post[] }) => {
                 </td>
                 <td>{rating}</td>
                 {showPrice && <td>{`${currency}${price}`}</td>}
-                {showConvertedPrice && <td>£{convertedPrice.toFixed(2)}</td>}
+                {showConvertedPrice && (
+                  <td>
+                    {typeof convertedPrice === "number" ? `£${convertedPrice.toFixed(2)}` : "N/A"}
+                  </td>
+                )}
                 {showMeat && <td>{meat}</td>}
                 {showCountry && <td>{country}</td>}
                 {showYearVisited && <td>{yearVisited}</td>}
