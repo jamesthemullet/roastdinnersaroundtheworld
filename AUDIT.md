@@ -21,7 +21,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 
 ## 2. Accessibility
 
-- [ ] `src/components/header/header.astro:38-41` — mobile nav `tabindex` state (`setMenuLinks(hidden)`) is computed once at script load from `window.innerWidth` and never re-runs on resize/orientation change, so tabindex can go stale after a viewport change. Low priority. (found: 2026-09-02)
+- [x] `src/components/header/header.astro:38-41` — mobile nav `tabindex` state (`setMenuLinks(hidden)`) is computed once at script load from `window.innerWidth` and never re-runs on resize/orientation change, so tabindex can go stale after a viewport change. Low priority. (found: 2026-09-02) (fixed: 2026-09-16)
 
 ## 3. Performance
 
