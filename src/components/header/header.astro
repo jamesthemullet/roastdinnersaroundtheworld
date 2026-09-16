@@ -35,10 +35,19 @@ import "./header.css";
       });
     }
 
-    // On load, hide links from tab order (menu is closed on mobile)
-    if (window.innerWidth < 1200) {
-      setMenuLinks(true);
+    // Keep tabindex in sync with viewport: below 1200px the menu is closed by
+    // default and links must leave the tab order; at/above 1200px the nav is
+    // always visible via CSS regardless of the toggle state.
+    function updateMenuLinksForViewport() {
+      if (window.innerWidth >= 1200) {
+        setMenuLinks(false);
+      } else {
+        setMenuLinks(toggle.getAttribute("aria-expanded") !== "true");
+      }
     }
+
+    updateMenuLinksForViewport();
+    window.addEventListener("resize", updateMenuLinksForViewport);
 
     toggle.addEventListener("click", function () {
       const isExpanded = this.getAttribute("aria-expanded") === "true";
