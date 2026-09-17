@@ -26,7 +26,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 ## 3. Performance
 
 - [ ] Blog post hero images (e.g. `/swan-lion-tokyo-japan`) serve the raw WordPress-uploaded size (2560×1920) with no `srcset`/`sizes`, so every viewport downloads the full-resolution file — inflates LCP payload on mobile. (found: 2026-09-02)
-- [ ] `/league-of-roasts` hero image (`Fado-Irish-Bar-and-Grill-Benalmadena-The-Whole-Roast-scaled.jpg`, 2000×2000) is marked `loading="lazy"` despite being the above-the-fold hero, delaying LCP unnecessarily. (found: 2026-09-02)
+- [x] `/league-of-roasts` hero image (`Fado-Irish-Bar-and-Grill-Benalmadena-The-Whole-Roast-scaled.jpg`, 2000×2000) is marked `loading="lazy"` despite being the above-the-fold hero, delaying LCP unnecessarily. (found: 2026-09-02) (fixed: 2026-09-17)
 
 ## 4. SEO / metadata
 
