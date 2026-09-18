@@ -11,6 +11,9 @@ import { SEO } from "astro-seo";
 import logo3 from "../images/logos/rdaw-logo-3.webp";
 
 const siteLogoUrl = Astro.site ? new URL(logo3.src, Astro.site).toString() : logo3.src;
+const canonicalUrl = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).toString()
+  : Astro.url.pathname;
 ---
 
 <html lang="en">
@@ -44,7 +47,7 @@ const siteLogoUrl = Astro.site ? new URL(logo3.src, Astro.site).toString() : log
       href="/favicon/favicon-16x16.png"
     />
     <link rel="manifest" href="/favicon/site.webmanifest" />
-    <link rel="canonical" href="https://roastdinnersaroundtheworld.com" />
+    <link rel="canonical" href={canonicalUrl} />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="viewport" content="width=device-width" />
