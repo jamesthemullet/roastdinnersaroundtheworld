@@ -268,4 +268,28 @@ describe("SortPosts URL params", () => {
     const copyStatus = statusRegions.find((el) => el.textContent === "Link copied!");
     expect(copyStatus).toBeTruthy();
   });
+
+  it("renders N/A for a converted price of null instead of crashing", () => {
+    const postsWithMissingPrice = [
+      ...posts,
+      {
+        slug: "/no-price-oslo",
+        title: "No Price Oslo",
+        customfields: {
+          rating: 7,
+          currency: "kr",
+          price: 0,
+          meat: "Pork",
+          country: "Norway",
+          yearVisited: 2021,
+          convertedPrice: null,
+        },
+      },
+    ];
+    render(<SortPosts posts={postsWithMissingPrice} />);
+    const links = getLinks();
+    expect(links).toHaveLength(4);
+    const row = links.find((a) => a.textContent === "No Price Oslo")?.closest("tr");
+    expect(row).toHaveTextContent("N/A");
+  });
 });
