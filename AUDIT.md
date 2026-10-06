@@ -42,7 +42,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 - [ ] `src/components/header/header.astro:43-54` + `header.css:123-151` — the mobile nav-toggle click handler sets an inline `menu.style.display = "none"/"block"`, which beats the `@media (min-width: 1200px){ display:flex }` desktop rule. Reproducible dead-end: open the mobile menu, close it, then widen the viewport past 1200px — the desktop nav stays hidden and the toggle button itself is `display:none` at that breakpoint, so there's no way to recover the nav without a full page reload. (found: 2026-09-02)
 - [ ] `/countries` — "Portugal" and "Switzerland" are plain unlinked text while "Dubai", "France", "Malta", "Norway", "Spain", "USA" are hyperlinks, even though the homepage lists reviews for both (Irish Rover/Portugal, Paddy Reillys/Switzerland). Looks like an oversight, no visual "coming soon" distinction given. (found: 2026-09-02)
 - [ ] `/where-should-i-go` copy says "Please either add comments here, or e-mail to me" but no comment widget/form exists on the page — references a feature that isn't there. (found: 2026-09-02)
-- [ ] `src/pages/404.astro` — missing whitespace: renders as "...try another part of the world.Go home?" with no space before the link. (found: 2026-09-02)
+- [x] `src/pages/404.astro` — missing whitespace: renders as "...try another part of the world.Go home?" with no space before the link. (found: 2026-09-02) (fixed: 2026-10-02)
 - [ ] `/to-do-list` is a dead-end page: a single list item with no further call-to-action or link back into deeper site content beyond the nav bar. Nice-to-have, not urgent. (found: 2026-09-02)
 
 ## 6. Security
