@@ -32,7 +32,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 
 - [x] `src/layouts/BaseLayout.astro:47` — canonical `<link>` is hardcoded to `https://roastdinnersaroundtheworld.com` (no `www`) and emitted identically on every route (homepage, `/about`, `/league-of-roasts`, every blog post), telling search engines every page is a duplicate of the homepage. Also mismatches `site` in `astro.config.mjs:7` (`https://www.roastdinnersaroundtheworld.com`, with `www`) — `og:image` on blog posts correctly uses the `www` domain, so the canonical tag is the outlier. (found: 2026-09-02) (fixed: 2026-09-18)
 - [x] `/sitemap.xml` returns 404 — `@astrojs/sitemap` integration isn't configured. (found: 2026-09-02) (fixed: 2026-09-19)
-- [ ] `public/robots.txt` is the default Astro scaffold (`Allow: /`) with no `Sitemap:` line — consistent with there being no sitemap to point to yet. (found: 2026-09-02)
+- [x] `public/robots.txt` is the default Astro scaffold (`Allow: /`) with no `Sitemap:` line — consistent with there being no sitemap to point to yet. (found: 2026-09-02) (fixed: 2026-10-01)
 - [ ] `/about` meta description is a raw WordPress excerpt that ends mid-sentence with a literal `[…]` character, reading poorly as a search-result snippet. (found: 2026-09-02)
 - [x] No `twitter:card`/Twitter meta tags anywhere, only `og:*`. Minor, low priority for a personal site. (found: 2026-09-02) (fixed: 2026-10-05)
 
@@ -54,7 +54,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 
 - [ ] `README.md:18` says "ESLint + Prettier — linting and formatting", but the project actually uses Biome (`package.json` scripts `biome check .` / `biome format --write .`, devDependency `@biomejs/biome`) — no ESLint or Prettier present at all. Update the README line. (found: 2026-09-02)
 - [ ] `README.md:31-39` scripts table omits `npm run test:coverage` and `npm run knip`, both enforced CI gates (`knip.yml`, `unit-tests.yml`) — add rows for onboarding completeness. (found: 2026-09-02)
-- [ ] `src/pages/blog/jamstack.md` is a completely empty file that still builds to a live route (`/blog/jamstack/index.html`, confirmed in `yarn build` output), not referenced in the README's feature list — looks like leftover scaffolding. Either populate it or delete the file/route. (found: 2026-09-02)
+- [x] `src/pages/blog/jamstack.md` is a completely empty file that still builds to a live route (`/blog/jamstack/index.html`, confirmed in `yarn build` output), not referenced in the README's feature list — looks like leftover scaffolding. Either populate it or delete the file/route. (found: 2026-09-02) (fixed: 2026-10-06)
 
 ## 8. Code quality
 
