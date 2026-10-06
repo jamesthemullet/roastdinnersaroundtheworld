@@ -34,7 +34,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 - [x] `/sitemap.xml` returns 404 — `@astrojs/sitemap` integration isn't configured. (found: 2026-09-02) (fixed: 2026-09-19)
 - [ ] `public/robots.txt` is the default Astro scaffold (`Allow: /`) with no `Sitemap:` line — consistent with there being no sitemap to point to yet. (found: 2026-09-02)
 - [ ] `/about` meta description is a raw WordPress excerpt that ends mid-sentence with a literal `[…]` character, reading poorly as a search-result snippet. (found: 2026-09-02)
-- [ ] No `twitter:card`/Twitter meta tags anywhere, only `og:*`. Minor, low priority for a personal site. (found: 2026-09-02)
+- [x] No `twitter:card`/Twitter meta tags anywhere, only `og:*`. Minor, low priority for a personal site. (found: 2026-09-02) (fixed: 2026-10-05)
 
 ## 5. Responsive / UX
 
