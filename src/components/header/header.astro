@@ -40,6 +40,8 @@ import "./header.css";
     // always visible via CSS regardless of the toggle state.
     function updateMenuLinksForViewport() {
       if (window.innerWidth >= 1200) {
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.classList.remove("open");
         setMenuLinks(false);
       } else {
         setMenuLinks(toggle.getAttribute("aria-expanded") !== "true");
@@ -49,17 +51,16 @@ import "./header.css";
     updateMenuLinksForViewport();
     window.addEventListener("resize", updateMenuLinksForViewport);
 
+    // Toggle visibility via the "open" class only (see header.css's
+    // `#nav-toggle.open + #nav-menu` rule) rather than an inline
+    // menu.style.display — an inline style always wins the cascade, so it
+    // would permanently mask the >=1200px `display: flex` media-query rule
+    // once set, leaving the desktop nav stuck hidden after a resize.
     toggle.addEventListener("click", function () {
       const isExpanded = this.getAttribute("aria-expanded") === "true";
       this.setAttribute("aria-expanded", String(!isExpanded));
       this.classList.toggle("open");
-      if (isExpanded) {
-        menu.style.display = "none";
-        setMenuLinks(true);
-      } else {
-        menu.style.display = "block";
-        setMenuLinks(false);
-      }
+      setMenuLinks(isExpanded);
     });
   </script>
 </header>
