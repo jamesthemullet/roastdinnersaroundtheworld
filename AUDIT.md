@@ -32,17 +32,17 @@ audit adds new findings to the bottom of each section and leaves checked items a
 
 - [x] `src/layouts/BaseLayout.astro:47` — canonical `<link>` is hardcoded to `https://roastdinnersaroundtheworld.com` (no `www`) and emitted identically on every route (homepage, `/about`, `/league-of-roasts`, every blog post), telling search engines every page is a duplicate of the homepage. Also mismatches `site` in `astro.config.mjs:7` (`https://www.roastdinnersaroundtheworld.com`, with `www`) — `og:image` on blog posts correctly uses the `www` domain, so the canonical tag is the outlier. (found: 2026-09-02) (fixed: 2026-09-18)
 - [x] `/sitemap.xml` returns 404 — `@astrojs/sitemap` integration isn't configured. (found: 2026-09-02) (fixed: 2026-09-19)
-- [ ] `public/robots.txt` is the default Astro scaffold (`Allow: /`) with no `Sitemap:` line — consistent with there being no sitemap to point to yet. (found: 2026-09-02)
-- [x] `/about` meta description is a raw WordPress excerpt that ends mid-sentence with a literal `[…]` character, reading poorly as a search-result snippet. (found: 2026-09-02) (fixed: 2026-10-04)
-- [ ] No `twitter:card`/Twitter meta tags anywhere, only `og:*`. Minor, low priority for a personal site. (found: 2026-09-02)
+- [x] `public/robots.txt` is the default Astro scaffold (`Allow: /`) with no `Sitemap:` line — consistent with there being no sitemap to point to yet. (found: 2026-09-02) (fixed: 2026-10-01)
+- [x] `/about` meta description is a raw WordPress excerpt that ends mid-sentence with a literal `[…]` character, reading poorly as a search-result snippet. (found: 2026-09-02)
+- [x] No `twitter:card`/Twitter meta tags anywhere, only `og:*`. Minor, low priority for a personal site. (found: 2026-09-02) (fixed: 2026-10-05)
 
 ## 5. Responsive / UX
 
-- [ ] **Production-breaking bug**: `src/components/sortPosts.tsx:275` — `£{convertedPrice.toFixed(2)}` throws `TypeError: Cannot read properties of null (reading 'toFixed')` whenever any post has a null/missing price, because `src/pages/league-of-roasts.astro:44-46` (`convertedPrice = currencyRates?.[currency] ? price / currencyRates[currency] : price`) passes `null` straight through. With no error boundary around the island, this unmounts the entire `SortPosts` component — the whole league table (and anywhere else `SortPosts` is used, e.g. `/where-should-i-go`) silently renders as blank white space with no error shown to the user. Reproduces on every load since `showConvertedPrice` defaults to `true` (`sortPosts.tsx:47`). (found: 2026-09-02)
+- [x] **Production-breaking bug**: `src/components/sortPosts.tsx:275` — `£{convertedPrice.toFixed(2)}` throws `TypeError: Cannot read properties of null (reading 'toFixed')` whenever any post has a null/missing price, because `src/pages/league-of-roasts.astro:44-46` (`convertedPrice = currencyRates?.[currency] ? price / currencyRates[currency] : price`) passes `null` straight through. With no error boundary around the island, this unmounts the entire `SortPosts` component — the whole league table (and anywhere else `SortPosts` is used, e.g. `/where-should-i-go`) silently renders as blank white space with no error shown to the user. Reproduces on every load since `showConvertedPrice` defaults to `true` (`sortPosts.tsx:47`). (found: 2026-09-02) (fixed: 2026-10-03)
 - [ ] `src/components/header/header.astro:43-54` + `header.css:123-151` — the mobile nav-toggle click handler sets an inline `menu.style.display = "none"/"block"`, which beats the `@media (min-width: 1200px){ display:flex }` desktop rule. Reproducible dead-end: open the mobile menu, close it, then widen the viewport past 1200px — the desktop nav stays hidden and the toggle button itself is `display:none` at that breakpoint, so there's no way to recover the nav without a full page reload. (found: 2026-09-02)
 - [ ] `/countries` — "Portugal" and "Switzerland" are plain unlinked text while "Dubai", "France", "Malta", "Norway", "Spain", "USA" are hyperlinks, even though the homepage lists reviews for both (Irish Rover/Portugal, Paddy Reillys/Switzerland). Looks like an oversight, no visual "coming soon" distinction given. (found: 2026-09-02)
 - [ ] `/where-should-i-go` copy says "Please either add comments here, or e-mail to me" but no comment widget/form exists on the page — references a feature that isn't there. (found: 2026-09-02)
-- [ ] `src/pages/404.astro` — missing whitespace: renders as "...try another part of the world.Go home?" with no space before the link. (found: 2026-09-02)
+- [x] `src/pages/404.astro` — missing whitespace: renders as "...try another part of the world.Go home?" with no space before the link. (found: 2026-09-02) (fixed: 2026-10-02)
 - [ ] `/to-do-list` is a dead-end page: a single list item with no further call-to-action or link back into deeper site content beyond the nav bar. Nice-to-have, not urgent. (found: 2026-09-02)
 
 ## 6. Security
@@ -54,7 +54,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 
 - [ ] `README.md:18` says "ESLint + Prettier — linting and formatting", but the project actually uses Biome (`package.json` scripts `biome check .` / `biome format --write .`, devDependency `@biomejs/biome`) — no ESLint or Prettier present at all. Update the README line. (found: 2026-09-02)
 - [ ] `README.md:31-39` scripts table omits `npm run test:coverage` and `npm run knip`, both enforced CI gates (`knip.yml`, `unit-tests.yml`) — add rows for onboarding completeness. (found: 2026-09-02)
-- [ ] `src/pages/blog/jamstack.md` is a completely empty file that still builds to a live route (`/blog/jamstack/index.html`, confirmed in `yarn build` output), not referenced in the README's feature list — looks like leftover scaffolding. Either populate it or delete the file/route. (found: 2026-09-02)
+- [x] `src/pages/blog/jamstack.md` is a completely empty file that still builds to a live route (`/blog/jamstack/index.html`, confirmed in `yarn build` output), not referenced in the README's feature list — looks like leftover scaffolding. Either populate it or delete the file/route. (found: 2026-09-02) (fixed: 2026-10-06)
 
 ## 8. Code quality
 
