@@ -15,7 +15,7 @@ A website tracking and rating roast dinners from around the world, built with As
 - [React](https://react.dev) — interactive components
 - Vitest + Testing Library — unit tests
 - Playwright — end-to-end tests
-- ESLint + Prettier — linting and formatting
+- Biome — linting and formatting
 
 ## Getting Started
 
