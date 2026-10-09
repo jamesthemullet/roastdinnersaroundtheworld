@@ -37,6 +37,8 @@ Open [http://localhost:4321](http://localhost:4321) in your browser.
 | `npm run lint` | Lint code |
 | `npm run format` | Format code with Prettier |
 | `npm run ts-check` | Type check |
+| `npm run test:coverage` | Run unit tests with coverage |
+| `npm run knip` | Check for unused files, exports, and dependencies |
 
 ## License
 
