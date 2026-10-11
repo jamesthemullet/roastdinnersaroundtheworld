@@ -9,11 +9,13 @@ import "@fontsource/yellowtail";
 import yellowtailWoff2 from "@fontsource/yellowtail/files/yellowtail-latin-400-normal.woff2?url";
 import { SEO } from "astro-seo";
 import logo3 from "../images/logos/rdaw-logo-3.webp";
+import { cleanExcerpt } from "../lib/text";
 
 const siteLogoUrl = Astro.site ? new URL(logo3.src, Astro.site).toString() : logo3.src;
 const canonicalUrl = Astro.site
   ? new URL(Astro.url.pathname, Astro.site).toString()
   : Astro.url.pathname;
+const cleanedDescription = cleanExcerpt(description);
 ---
 
 <html lang="en">
@@ -53,7 +55,7 @@ const canonicalUrl = Astro.site
     <meta name="viewport" content="width=device-width" />
     <SEO
       title={pageTitle || "Roast Dinners Around The World"}
-      description={description ||
+      description={cleanedDescription ||
         "Emporer Gravy bringing you roast dinner reviews from around the world."}
       openGraph={{
         basic: {
@@ -63,7 +65,7 @@ const canonicalUrl = Astro.site
         },
         optional: {
           description:
-            description ||
+            cleanedDescription ||
             "Emporer Gravy bringing you roast dinner reviews from around the world.",
           siteName: "Roast Dinners Around The World",
         },

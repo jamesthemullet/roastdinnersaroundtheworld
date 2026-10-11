@@ -15,7 +15,7 @@ A website tracking and rating roast dinners from around the world, built with As
 - [React](https://react.dev) — interactive components
 - Vitest + Testing Library — unit tests
 - Playwright — end-to-end tests
-- ESLint + Prettier — linting and formatting
+- Biome — linting and formatting
 
 ## Getting Started
 
@@ -37,6 +37,8 @@ Open [http://localhost:4321](http://localhost:4321) in your browser.
 | `npm run lint` | Lint code |
 | `npm run format` | Format code with Prettier |
 | `npm run ts-check` | Type check |
+| `npm run test:coverage` | Run unit tests with coverage |
+| `npm run knip` | Check for unused files, exports, and dependencies |
 
 ## License
 

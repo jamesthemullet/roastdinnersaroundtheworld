@@ -33,7 +33,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 - [x] `src/layouts/BaseLayout.astro:47` — canonical `<link>` is hardcoded to `https://roastdinnersaroundtheworld.com` (no `www`) and emitted identically on every route (homepage, `/about`, `/league-of-roasts`, every blog post), telling search engines every page is a duplicate of the homepage. Also mismatches `site` in `astro.config.mjs:7` (`https://www.roastdinnersaroundtheworld.com`, with `www`) — `og:image` on blog posts correctly uses the `www` domain, so the canonical tag is the outlier. (found: 2026-09-02) (fixed: 2026-09-18)
 - [x] `/sitemap.xml` returns 404 — `@astrojs/sitemap` integration isn't configured. (found: 2026-09-02) (fixed: 2026-09-19)
 - [x] `public/robots.txt` is the default Astro scaffold (`Allow: /`) with no `Sitemap:` line — consistent with there being no sitemap to point to yet. (found: 2026-09-02) (fixed: 2026-10-01)
-- [ ] `/about` meta description is a raw WordPress excerpt that ends mid-sentence with a literal `[…]` character, reading poorly as a search-result snippet. (found: 2026-09-02)
+- [x] `/about` meta description is a raw WordPress excerpt that ends mid-sentence with a literal `[…]` character, reading poorly as a search-result snippet. (found: 2026-09-02)
 - [x] No `twitter:card`/Twitter meta tags anywhere, only `og:*`. Minor, low priority for a personal site. (found: 2026-09-02) (fixed: 2026-10-05)
 
 ## 5. Responsive / UX
@@ -52,13 +52,13 @@ audit adds new findings to the bottom of each section and leaves checked items a
 
 ## 7. Feature alignment vs README
 
-- [ ] `README.md:18` says "ESLint + Prettier — linting and formatting", but the project actually uses Biome (`package.json` scripts `biome check .` / `biome format --write .`, devDependency `@biomejs/biome`) — no ESLint or Prettier present at all. Update the README line. (found: 2026-09-02)
-- [ ] `README.md:31-39` scripts table omits `npm run test:coverage` and `npm run knip`, both enforced CI gates (`knip.yml`, `unit-tests.yml`) — add rows for onboarding completeness. (found: 2026-09-02)
+- [x] `README.md:18` says "ESLint + Prettier — linting and formatting", but the project actually uses Biome (`package.json` scripts `biome check .` / `biome format --write .`, devDependency `@biomejs/biome`) — no ESLint or Prettier present at all. Update the README line. (found: 2026-09-02) (fixed: 2026-10-08)
+- [x] `README.md:31-39` scripts table omits `npm run test:coverage` and `npm run knip`, both enforced CI gates (`knip.yml`, `unit-tests.yml`) — add rows for onboarding completeness. (found: 2026-09-02) (fixed: 2026-10-09)
 - [x] `src/pages/blog/jamstack.md` is a completely empty file that still builds to a live route (`/blog/jamstack/index.html`, confirmed in `yarn build` output), not referenced in the README's feature list — looks like leftover scaffolding. Either populate it or delete the file/route. (found: 2026-09-02) (fixed: 2026-10-06)
 
 ## 8. Code quality
 
-- [ ] `src/lib/api.ts:1` — `fetchGraphQL` has no return type annotation (`response.json()` resolves to implicit `any`), so callers declaring `let x: unknown` (e.g. `src/pages/about.astro:10`, `countries.astro:10`, `to-do-list.astro:9`, `where-should-i-go.astro:9`) get no real safety — the variable narrows back to `any` on assignment. A typed `fetchGraphQL<T>(query, variables): Promise<T>` plus a shared `Page`/`Post` interface would catch real mistakes. (found: 2026-09-02)
+- [x] `src/lib/api.ts:1` — `fetchGraphQL` has no return type annotation (`response.json()` resolves to implicit `any`), so callers declaring `let x: unknown` (e.g. `src/pages/about.astro:10`, `countries.astro:10`, `to-do-list.astro:9`, `where-should-i-go.astro:9`) get no real safety — the variable narrows back to `any` on assignment. A typed `fetchGraphQL<T>(query, variables): Promise<T>` plus a shared `Page`/`Post` interface would catch real mistakes. (found: 2026-09-02) (fixed: 2026-10-10)
 - [ ] `src/pages/index.astro:8` — `let posts = [];` is an untyped empty-array initializer (implicit `any[]`), same root cause as the `fetchGraphQL` typing gap above. (found: 2026-09-02)
 - [ ] `src/pages/about.astro`, `countries.astro`, `to-do-list.astro`, `where-should-i-go.astro` all repeat an identical ~9-line block (`let singlePost: unknown` → try/fetch/catch-and-throw). Worth extracting a shared `fetchSinglePost(id: string)` helper in `src/lib/api.ts`. (found: 2026-09-02)
 - [ ] The WordPress host `blog.roastdinnersaroundtheworld.com` is hardcoded separately in `src/lib/api.ts:2`, `src/layouts/BaseLayout.astro:18`, and `src/pages/[slug].astro:19` (GraphQL endpoint, preconnect link, image-URL rewrite check) — no single source of truth. Worth a shared `WP_HOST` constant. (found: 2026-09-02)
