@@ -1,6 +1,32 @@
+import SINGLE_POST_QUERY from "./graphql/queries/singlePost";
+
 interface GraphQLResponse<T> {
   data: T;
   errors?: unknown;
+}
+
+export interface SinglePost {
+  title: string;
+  content: string;
+  featuredImage?: {
+    node: {
+      sourceUrl: string;
+      mediaDetails?: {
+        height: number;
+        width: number;
+      };
+    };
+  };
+  seo: {
+    opengraphDescription: string;
+    opengraphImage?: {
+      sourceUrl: string;
+    };
+  };
+}
+
+interface SinglePostResponse {
+  page: SinglePost;
 }
 
 export async function fetchGraphQL<T = unknown>(
@@ -20,4 +46,14 @@ export async function fetchGraphQL<T = unknown>(
   }
 
   return json.data;
+}
+
+export async function fetchSinglePost(id: string): Promise<SinglePost> {
+  try {
+    const { page } = await fetchGraphQL<SinglePostResponse>(SINGLE_POST_QUERY, { id });
+    return page;
+  } catch (error) {
+    console.error("Error fetching GraphQL data:", error);
+    throw error;
+  }
 }
