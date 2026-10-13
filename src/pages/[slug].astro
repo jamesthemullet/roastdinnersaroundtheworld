@@ -5,6 +5,7 @@ import "./post.css";
 import { fetchGraphQL } from "../lib/api";
 import ALL_SLUGS_QUERY from "../lib/graphql/queries/allSlugs";
 import POST_BY_SLUG_QUERY from "../lib/graphql/queries/postBySlug";
+import { WP_HOST } from "../lib/wpHost";
 
 export async function getStaticPaths() {
   const { posts } = await fetchGraphQL(ALL_SLUGS_QUERY);
@@ -16,7 +17,7 @@ const { post: singlePost } = await fetchGraphQL(POST_BY_SLUG_QUERY, { id: slug }
 
 const toProxiedUrl = (url: string | undefined) =>
   url?.replace(
-    "https://blog.roastdinnersaroundtheworld.com/wp-content/uploads/",
+    `${WP_HOST}/wp-content/uploads/`,
     "https://www.roastdinnersaroundtheworld.com/wp-images/"
   );
 
