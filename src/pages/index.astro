@@ -5,10 +5,32 @@ import "./index.css";
 import { fetchGraphQL } from "../lib/api";
 import HOME_PAGE_POSTS_QUERY from "../lib/graphql/queries/homePagePosts";
 
-let posts = [];
+interface HomePagePost {
+  id: string;
+  slug: string;
+  title: string;
+  date: string;
+  featuredImage?: {
+    node?: {
+      mediaDetails?: {
+        sizes?: { sourceUrl: string; name: string }[];
+      };
+    };
+  };
+}
+
+interface HomePagePostsResponse {
+  posts: {
+    nodes: HomePagePost[];
+  };
+}
+
+type HomePost = HomePagePost & { featured_image?: string };
+
+let posts: HomePost[] = [];
 
 try {
-  const data = await fetchGraphQL(HOME_PAGE_POSTS_QUERY);
+  const data = await fetchGraphQL<HomePagePostsResponse>(HOME_PAGE_POSTS_QUERY);
   posts =
     data?.posts?.nodes?.map((post) => ({
       ...post,
