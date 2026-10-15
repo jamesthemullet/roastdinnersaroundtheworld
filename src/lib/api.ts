@@ -1,4 +1,5 @@
 import SINGLE_POST_QUERY from "./graphql/queries/singlePost";
+import { WP_HOST } from "./wpHost";
 
 interface GraphQLResponse<T> {
   data: T;
@@ -33,7 +34,7 @@ export async function fetchGraphQL<T = unknown>(
   query: string,
   variables: Record<string, unknown> = {}
 ): Promise<T> {
-  const response = await fetch("https://blog.roastdinnersaroundtheworld.com/graphql", {
+  const response = await fetch(`${WP_HOST}/graphql`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query, variables }),
