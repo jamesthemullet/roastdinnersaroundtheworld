@@ -15,5 +15,10 @@ const singlePost = await fetchSinglePost(PAGE_IDS.TO_DO_LIST);
   <div class="container">
     <h2>{singlePost.title}</h2>
     <div set:html={singlePost.content} />
+    <p class="to-do-list-cta">
+      Looking for inspiration? See how the roasts stack up in the <a href="/league-of-roasts"
+        >League of Roasts</a
+      >, or browse reviews by <a href="/countries">Country</a>.
+    </p>
   </div>
 </BaseLayout>

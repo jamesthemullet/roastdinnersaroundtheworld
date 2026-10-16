@@ -16,6 +16,10 @@
   }
 }
 
+.to-do-list-cta {
+  margin-top: 1.5rem;
+}
+
 .featured-image {
   margin: 0 auto;
   max-width: 100%;
