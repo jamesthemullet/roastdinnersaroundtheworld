@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "./post.css";
 import { fetchGraphQL } from "../lib/api";
@@ -24,6 +23,12 @@ const toProxiedUrl = (url: string | undefined) =>
 const ogImage = toProxiedUrl(
   singlePost.seo.opengraphImage?.sourceUrl || singlePost.featuredImage?.node?.sourceUrl
 );
+
+const heroSizes = singlePost.featuredImage?.node?.mediaDetails?.sizes ?? [];
+const heroSrcset = heroSizes
+  .filter((size) => size.sourceUrl && size.width)
+  .map((size) => `${size.sourceUrl} ${size.width}w`)
+  .join(", ");
 ---
 
 <BaseLayout
@@ -31,8 +36,10 @@ const ogImage = toProxiedUrl(
   description={singlePost.seo.opengraphDescription}
   opengraphImage={ogImage}
 >
-  <Image
+  <img
     src={singlePost.featuredImage.node.sourceUrl}
+    srcset={heroSrcset || undefined}
+    sizes={heroSrcset ? "100vw" : undefined}
     alt={singlePost.title}
     width={singlePost.featuredImage.node.mediaDetails?.width ?? 1200}
     height={singlePost.featuredImage.node.mediaDetails?.height ?? 900}
