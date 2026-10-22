@@ -10,6 +10,10 @@ const POST_BY_SLUG_QUERY = `
           mediaDetails {
             height
             width
+            sizes {
+              sourceUrl
+              width
+            }
           }
         }
       }
