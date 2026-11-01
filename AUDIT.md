@@ -48,7 +48,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 ## 6. Security
 
 - [ ] `vercel.json:66` — CSP `script-src` includes `'unsafe-inline'`. Worth auditing whether any remaining inline `<script>` blocks (outside GTM) could move to external files/nonces to drop this. Low urgency hardening opportunity, not a live hole — no client secrets or injection vectors found (`dangerouslySetInnerHTML`/raw `innerHTML` absent from `src/`, GraphQL queries use variables not string interpolation, `connect-src`/`script-src` allowlist matches actual usage). (found: 2026-09-02)
-- [ ] `yarn audit` reports 8 high / 10 moderate advisories, all in dev-toolchain transitive deps (`fast-uri`, `postcss`, `undici`, `nanoid`, `browserslist` via Astro/Vite) — not shipped to the client bundle, so not exploitable in production, but confirm Renovate PRs actually clear them rather than leaving them open indefinitely. (found: 2026-09-02)
+- [x] `yarn audit` reports 8 high / 10 moderate advisories, all in dev-toolchain transitive deps (`fast-uri`, `postcss`, `undici`, `nanoid`, `browserslist` via Astro/Vite) — not shipped to the client bundle, so not exploitable in production, but confirm Renovate PRs actually clear them rather than leaving them open indefinitely. (found: 2026-09-02) (fixed: 2026-11-01)
 
 ## 7. Feature alignment vs README
 

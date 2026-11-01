@@ -26,7 +26,8 @@
     "ts-check": "tsc --noEmit",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "knip": "knip"
+    "knip": "knip",
+    "audit:security": "yarn audit --level high"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.4",
