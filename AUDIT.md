@@ -47,7 +47,7 @@ audit adds new findings to the bottom of each section and leaves checked items a
 
 ## 6. Security
 
-- [ ] `vercel.json:66` — CSP `script-src` includes `'unsafe-inline'`. Worth auditing whether any remaining inline `<script>` blocks (outside GTM) could move to external files/nonces to drop this. Low urgency hardening opportunity, not a live hole — no client secrets or injection vectors found (`dangerouslySetInnerHTML`/raw `innerHTML` absent from `src/`, GraphQL queries use variables not string interpolation, `connect-src`/`script-src` allowlist matches actual usage). (found: 2026-09-02)
+- [x] `vercel.json:66` — CSP `script-src` includes `'unsafe-inline'`. Worth auditing whether any remaining inline `<script>` blocks (outside GTM) could move to external files/nonces to drop this. Low urgency hardening opportunity, not a live hole — no client secrets or injection vectors found (`dangerouslySetInnerHTML`/raw `innerHTML` absent from `src/`, GraphQL queries use variables not string interpolation, `connect-src`/`script-src` allowlist matches actual usage). (found: 2026-09-02) (fixed: 2026-11-06)
 
 ## 7. Feature alignment vs README
 
