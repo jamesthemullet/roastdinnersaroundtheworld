@@ -5,12 +5,12 @@
   "dependencies": {
     "@astrojs/partytown": "2.1.9",
     "@astrojs/sitemap": "^3.7.4",
-    "@astrojs/react": "7.1.5",
+    "@astrojs/react": "7.1.8",
     "@fontsource/yellowtail": "^5.0.19",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "accented": "^1.2.0",
-    "astro": "7.4.8",
+    "astro": "7.4.11",
     "astro-seo": "^1.0.0",
     "react": "19",
     "react-dom": "19"
